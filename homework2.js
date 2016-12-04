@@ -43,22 +43,44 @@ function removeWordFromString(string, word) {
 	return string;
 }
 
+//5.Sort divs by content
+
+function sortDivs(name) {
+	var htmlCollection = document.getElementsByClassName(name);
+	var arr = [].slice.call(htmlCollection);
+
+	setTimeout(function() {
+		arr.sort(function(v1,v2) {
+		return parseInt(v1.innerHTML) > parseInt(v2.innerHTML);
+	}).forEach(function(val, index) {
+		document.body.appendChild(val);
+	});
+	}, 3000);
+
+}
+
 (function(){
+	//Question 1
 	var arr = [1,2,3, [2,54,98, [43,9]],2,3];
 	flat = flattenArray(arr, ",");
 	console.log(flat);
 
+	//Question2
 	var palindrome = "hannah";
 	var not = "honey";
 
 	checkIfPalindrome(palindrome);
 	checkIfPalindrome(not);
 
+	//Question3
 	var result = addWordIfNotPresent("hello foo bar", "bar")
 	console.log(result)
 
+	//Question4
 	var str = 'foo bar bar foobar foo    hello    bar    foo   ';
 	var result = removeWordFromString(str, "bar");
 	console.log(result);
+
+	sortDivs('ll-homework');
 
 })();
