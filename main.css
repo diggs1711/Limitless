@@ -14,13 +14,13 @@
   border-color: grey;
   padding:10px;
   position: relative;
-  width: 500px;
 }
 
 img {
   position: absolute;
   right: 30px;
-  width: 5%;
+  bottom: 10px;
+  width: 2%;
   height: 50%;
 }
 

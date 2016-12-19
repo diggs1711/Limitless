@@ -31,6 +31,15 @@ console.log(generateRandomString(15,25));
 
 var arraySize = 200;
 
+var result = function generateRandomArray() {
+	var arr = [];
+	for(var i=0;i<arraySize;i++) {
+		arr.push(generateRandomString());
+	}
+	return arr;
+}
+
+console.log("2. = " + result)
 
 //III. Create a function that will filter out any element which contains number.
 
