@@ -1,9 +1,11 @@
-<<<<<<< HEAD
-//1. randomly generate a string with a length between 15-25
+
+//I. Create a function that will randomly generate a string with a length 
+//between 15 - 25 inclusive. Note that only number, charactor, '.', '-', '_' are allowed.
+
 var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.-_'";
 
-function generateRandomString() {
-	var randNum = getRandomNumber();
+function generateRandomString(min, max) {
+	var randNum = getRandomNumber(min, max);
 	var result = [];
 	
 
@@ -14,20 +16,21 @@ function generateRandomString() {
 	return result.join('');
 }
 
-function getRandomNumber() {
-	return Math.floor((Math.random() * 25) + 15);
+function getRandomNumber(min,max) {
+	return Math.floor((Math.random() * max) + min);
 }
 
 function randomCharacter () {
 	return Math.floor(Math.random() * possible.length);
 }
 
-console.log(generateRandomString());
-=======
+console.log(generateRandomString(15,25));
+
 //II. Create a function that will return an array of data with
 //    has a size of 200 and each element is a random string which has the size of 25 - 35.
 
 var arraySize = 200;
+
 
 //III. Create a function that will filter out any element which contains number.
 
@@ -52,7 +55,7 @@ var arraySize = 300;
 
 for (var i = 0; i < arraySize; i++) {
     var ele = document.createElement('div');
-    ele.innerHTML = getRandomString() + "<img src='x-icon.png' style='width:5%;height:3%;margin-left:180px;'/>";
+    ele.innerHTML = generateRandomString(65, 80) + "<img src='x-icon.png'/>";
     ele.className = "random-list";
     document.body.appendChild(ele);
 }
@@ -60,8 +63,3 @@ for (var i = 0; i < arraySize; i++) {
 function updateMonth() {
 
 }
-
-function getRandomString() {
-    return "string";
-}
->>>>>>> b17aaae7f434437551adf938b4ccbd704f888db5

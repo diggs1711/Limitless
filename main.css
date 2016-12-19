@@ -9,11 +9,19 @@
   background-color: inherit;
   border-radius: 5px;
   margin-bottom: 1px;
-  width: 250px;
   border-style: solid;
   border-size: 1px;
   border-color: grey;
-  padding:5px;
+  padding:10px;
+  position: relative;
+  width: 500px;
+}
+
+img {
+  position: absolute;
+  right: 30px;
+  width: 5%;
+  height: 50%;
 }
 
 .datepicker {
