@@ -1,0 +1,18 @@
+img {
+  position: absolute;
+  right: 30px;
+  bottom: 10px;
+  width: 2%;
+  height: 50%;
+}
+
+.random-list {
+  background-color: inherit;
+  border-radius: 5px;
+  margin-bottom: 1px;
+  border-style: solid;
+  border-size: 1px;
+  border-color: grey;
+  padding:10px;
+  position: relative;
+}

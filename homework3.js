@@ -1,18 +1,7 @@
-
-
-
-
-
-
-
-
-
-
-
 (function() {
 	"use strict";
 
-	var possible,
+	var possibleCharacters,
 	arraySizeForQuestion2,
 	arraySizeForQuestion4,
 	originalArrayForQuestion3;
@@ -34,7 +23,7 @@
 	}
 
 	function init() {
-		possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.-_'";
+		possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.-_'";
 		arraySizeForQuestion2 = 200;
 		arraySizeForQuestion4 = 300;
 		originalArrayForQuestion3 = ['ssfdds', 'adfd33dsf', '2ysdjlj', 'bb'];
@@ -57,17 +46,15 @@
 	}
 
 	function randomCharacter () {
-		return possible.charAt(Math.floor(Math.random() * possible.length + 1));
+		return possibleCharacters.charAt(getRandomNumber(0, possibleCharacters.length));
 	}
-
-	
 
 	//II. Create a function that will return an array of data with
 	//    has a size of 200 and each element is a random string which has the size of 25 - 35.
 	function generateRandomArray(arraySize, min, max) {
 		var arr = [];
 
-		for(var i=0;i<arraySize;i++) {
+		for(var i=0; i < arraySize; i++) {
 			arr.push(generateRandomString(min, max));
 		}
 		return arr;
@@ -86,7 +73,6 @@
 	function doesElementContainAnyDigits(el) {
 		return el.match(/\d+/g) === null;
 	}
-
 
 	//IV. Create a function that will take a array with size of 300 as input and return
 	// 300 dom elements each of which has the string as its content and then append them
