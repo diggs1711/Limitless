@@ -34,12 +34,12 @@ var arraySize = 200;
 var result = function generateRandomArray() {
 	var arr = [];
 	for(var i=0;i<arraySize;i++) {
-		arr.push(generateRandomString());
+		arr.push(generateRandomString(25,35));
 	}
 	return arr;
 }
 
-console.log("2. = " + result)
+console.log(result())
 
 //III. Create a function that will filter out any element which contains number.
 
