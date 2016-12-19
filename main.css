@@ -1,0 +1,44 @@
+.example {
+  width: 300px;
+  height: 100px;
+  border: #ccc;
+  margin-bottom: : 20px;
+}
+
+.random-list {
+  background-color: inherit;
+  border-radius: 5px;
+  margin-bottom: 1px;
+  width: 250px;
+  border-style: solid;
+  border-size: 1px;
+  border-color: grey;
+  padding:5px;
+}
+
+.datepicker {
+  width : 250px;
+  text-align: center;
+  box-shadow: 5px 5px 2.5px #888888;
+}
+
+td:hover {
+  background: #7EC0EE;
+  border-radius: 50%;
+  color:white;
+}
+
+.month {
+  width : inherit;
+  display: table;
+  table-layout: fixed;
+  height: 10px;
+  text-align: center;
+}
+.header{
+  background-color: #7EC0EE;
+  color: white;
+}
+.week{
+  height: 50px;
+}
