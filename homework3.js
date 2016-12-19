@@ -71,7 +71,7 @@
 	}
 
 	function doesElementContainAnyDigits(el) {
-		return el.match(/\d+/g) === null;
+		return el.match(/\d+/g) !== null;
 	}
 
 	//IV. Create a function that will take a array with size of 300 as input and return
