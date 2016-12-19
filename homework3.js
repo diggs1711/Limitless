@@ -45,7 +45,7 @@
 		return Math.floor((Math.random() * (max - min + 1)) + min);
 	}
 
-	function randomCharacter () {
+	function randomCharacter() {
 		return possibleCharacters.charAt(getRandomNumber(0, possibleCharacters.length));
 	}
 
@@ -83,12 +83,11 @@
 	function generateDomElementsWithRandomStrings(arraySize, min, max) {
 		for (var i = 0; i < arraySize; i++) {
 			var ele = document.createElement('div');
-			ele.innerHTML = generateRandomString(min, max) + "<img src='x-icon.png'/>";
+			ele.innerHTML = generateRandomString(min, max) + "<img src='x-icon.png'>";
 			ele.className = "random-list";
 			document.body.appendChild(ele);
 		}
 	}
 	
 	start();
-
 })();
