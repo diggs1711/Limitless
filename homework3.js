@@ -8,9 +8,9 @@ var arraySize = 200;
 var original = ['ssfdds', 'adfd33dsf', '2ysdjlj', 'bb'];
 
 var result = original.filter(function(el) {
-  if(el.match(/\d+/g) != null) {
-    return el;
-  }
+    if (el.match(/\d+/g) != null) {
+        return el;
+    }
 });
 
 console.log(result);
@@ -24,16 +24,17 @@ console.log(result);
 
 var arraySize = 300;
 
-for(var i=0;i<arraySize;i++) {
-  var ele = document.createElement('div');
-  ele.innerHTML = getRandomString();
-  ele.className = "random-list";
-  document.body.appendChild(ele);
+for (var i = 0; i < arraySize; i++) {
+    var ele = document.createElement('div');
+    ele.innerHTML = getRandomString() + "<img src='x-icon.png' style='width:5%;height:3%;margin-left:180px;'/>";
+    ele.className = "random-list";
+    document.body.appendChild(ele);
 }
 
-function updateMonth () {
-  
+function updateMonth() {
+
 }
+
 function getRandomString() {
-  return "string";
+    return "string";
 }
