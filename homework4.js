@@ -62,8 +62,7 @@
         this.day = dd;
     }
 
-    function renderCalendar() {
-
+    function createDayNameHeader() {
         daysOfMonth.forEach(function(day) {
             var el = document.createElement('td');
             el.innerHTML = day;
@@ -72,7 +71,9 @@
         });
 
         month.appendChild(tableRow);
+    }
 
+    function createTablesRows() {
         for (var i = 0; i < 5; i++) {
             var week = document.createElement('tr');
             week.className = "week";
@@ -87,10 +88,18 @@
             }
             month.appendChild(week);
         }
+    }
 
+    function addElementsToPage() {
         datePicker.appendChild(header);
         datePicker.appendChild(month);
         document.body.appendChild(datePicker);
+    }
+
+    function renderCalendar() {
+        createDayNameHeader();
+        createTablesRows();
+        addElementsToPage();
     }
 
     function isLastDayOfMonth(day, date) {
