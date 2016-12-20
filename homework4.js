@@ -53,7 +53,7 @@
 
     function currentDate() {
         var today = new Date();
-        var mm = 6;//today.getMonth(); //January is 0!
+        var mm = today.getMonth(); //January is 0!
 
         this.currentMonth = Object.keys(months)[mm];
         this.month = mm;
