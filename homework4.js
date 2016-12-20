@@ -5,7 +5,7 @@
         month,
         tableRow,
         months,
-        daysOfMonth,
+        daysOfWeek,
         header,
         dayCount,
         date;
@@ -40,9 +40,9 @@
             December: "31"
         };
 
-        date = new currentDate();
+        daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-        daysOfMonth = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        date = new currentDate();
 
         header = document.createElement('div');
         header.className = "header";
@@ -53,17 +53,21 @@
 
     function currentDate() {
         var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth(); //January is 0!
-        var yyyy = today.getFullYear();
+        var mm = 6;//today.getMonth(); //January is 0!
 
         this.currentMonth = Object.keys(months)[mm];
-        this.currentYear = yyyy;
-        this.day = dd;
+        this.month = mm;
+        this.currentYear = today.getFullYear();
+        this.day = today.getDate();
+        this.dayName = today.getDay();
+    }
+
+    function getFirstDayOfTheMonth(year, month) {
+        return new Date(year, month, 1).getDay();
     }
 
     function createDayNameHeader() {
-        daysOfMonth.forEach(function(day) {
+        daysOfWeek.forEach(function(day) {
             var el = document.createElement('td');
             el.innerHTML = day;
             el.className = "dayName";
@@ -77,14 +81,21 @@
         for (var i = 0; i < 5; i++) {
             var week = document.createElement('tr');
             week.className = "week";
-
+            var firstDayOfMonth = getFirstDayOfTheMonth(date.currentYear, date.month)
             for (var j = 1; j < 8; j++) {
-                var el = document.createElement('td');
-                el.innerHTML = dayCount;
-                el.className = "dayNumber";
-                week.appendChild(el);
+                if (j > firstDayOfMonth || i > 0) {
+                    var el = document.createElement('td');
+                    el.innerHTML = dayCount;
+                    el.className = "dayNumber";
 
-                dayCount = (isLastDayOfMonth(dayCount, date)) ? 1 : (dayCount + 1);
+                    week.appendChild(el);
+                    dayCount = (isLastDayOfMonth(dayCount, date)) ? 1 : (dayCount + 1);
+                } else {
+                    var empty = document.createElement('td');
+                    var previousMonth = Object.keys(months)[date.month - 1];
+                    empty.innerHTML = months[previousMonth] - firstDayOfMonth + j;
+                    week.append(empty);
+                }
             }
             month.appendChild(week);
         }
@@ -105,6 +116,5 @@
     function isLastDayOfMonth(day, date) {
         return dayCount === Number(months[date.currentMonth]);
     }
-
     start();
 })();
