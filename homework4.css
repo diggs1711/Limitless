@@ -11,12 +11,15 @@
   box-shadow: 5px 5px 2.5px #888888;
 }
 
-td:hover {
+.dayNumber:hover {
   background: #7EC0EE;
   border-radius: 50%;
   color:white;
 }
 
+.dayName {
+    border-bottom: thick solid grey;
+}
 .month {
   width : inherit;
   display: table;
@@ -24,10 +27,12 @@ td:hover {
   height: 10px;
   text-align: center;
 }
+
 .header{
   background-color: #7EC0EE;
   color: white;
 }
+
 .week{
   height: 50px;
 }
