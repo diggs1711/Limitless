@@ -91,10 +91,11 @@
                     week.appendChild(el);
                     dayCount = (isLastDayOfMonth(dayCount, date)) ? 1 : (dayCount + 1);
                 } else {
-                    var empty = document.createElement('td');
+                    var previous = document.createElement('td');
                     var previousMonth = Object.keys(months)[date.month - 1];
-                    empty.innerHTML = months[previousMonth] - firstDayOfMonth + j;
-                    week.append(empty);
+                    previous.innerHTML = months[previousMonth] - firstDayOfMonth + j;
+                    previous.className = "dayNumber";
+                    week.append(previous);
                 }
             }
             month.appendChild(week);
