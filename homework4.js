@@ -8,6 +8,7 @@
         daysOfWeek,
         header,
         dayCount,
+        previousButton,
         date;
 
     function start() {
@@ -46,7 +47,7 @@
 
         header = document.createElement('div');
         header.className = "header";
-        header.innerHTML = date.currentMonth + " " + date.currentYear;
+        header.innerHTML = date.monthName + " " + date.currentYear;
 
         dayCount = 1;
     }
@@ -55,7 +56,7 @@
         var today = new Date();
         var mm = today.getMonth(); //January is 0!
 
-        this.currentMonth = Object.keys(months)[mm];
+        this.monthName = Object.keys(months)[mm];
         this.month = mm;
         this.currentYear = today.getFullYear();
         this.day = today.getDate();
@@ -115,7 +116,7 @@
     }
 
     function isLastDayOfMonth(day, date) {
-        return dayCount === Number(months[date.currentMonth]);
+        return dayCount === Number(months[date.monthName]);
     }
     start();
 })();
