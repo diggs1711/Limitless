@@ -100,6 +100,11 @@
                     el.innerHTML = dayCount;
                     el.className = "dayNumber";
 
+                    el.addEventListener("click", function() {
+                        var dateSelected = new Date(date.currentYear, date.month, this.innerHTML);
+                        alert(dateSelected.toDateString());
+                    });
+
                     week.appendChild(el);
                     dayCount = (isLastDayOfMonth(dayCount, date)) ? 1 : (dayCount + 1);
                 } else {
@@ -117,6 +122,10 @@
 
         previous.innerHTML = months[previousMonth] - firstDayOfMonth + j;
         previous.className = "dayNumber";
+        previous.addEventListener("click", function() {
+            var dateSelected = new Date(date.currentYear, date.month, this.innerHTML);
+            alert(dateSelected.toDateString());
+        });
 
         return previous;
     }
