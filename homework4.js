@@ -116,9 +116,16 @@
         }
     }
 
+    Number.prototype.mod = function(n) {
+      return ((this%n)+n)%n;
+    };
+
     function fillDaysBeforeStartOfMonth(firstDayOfMonth, j) {
         var previous = document.createElement('td');
-        var previousMonth = Object.keys(months)[date.month - 1];
+        var mnths = Object.keys(months);
+        var len = mnths.length;
+
+        var previousMonth = mnths[(date.month - 1).mod(len)];
 
         previous.innerHTML = months[previousMonth] - firstDayOfMonth + j;
         previous.className = "dayNumber";
@@ -165,7 +172,7 @@
     function reRenderCalendar() {
         getInputValues();
 
-        if (date.currentYear === 0 || date.month < 0) {
+        if (checkInputValues(date.currentYear, date.month)) {
             alert("Please enter correct values");
         } else {
             emptyContents();
@@ -174,6 +181,10 @@
             createTablesRows();
             addElementsToPage();
         }
+    }
+
+    function checkInputValues(year, month) {
+      return (year === "" || month < 0);
     }
 
     function isLastDayOfMonth(day, date) {
