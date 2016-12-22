@@ -19,12 +19,12 @@
     }
 
     function emptyContents() {
-      dayCount = 1;
-      
-      datePicker.innerHTML = "";
-      table.innerHTML = "";
-      tableRow.innerHTML = "";
-      header.innerHTML = "";
+        dayCount = 1;
+
+        datePicker.innerHTML = "";
+        table.innerHTML = "";
+        tableRow.innerHTML = "";
+        header.innerHTML = "";
     }
 
     function init() {
@@ -61,17 +61,16 @@
 
         createHeader();
 
-
         dayCount = 1;
 
         enterButton = document.querySelector('.enterButton');
         enterButton.addEventListener("click", function(e) {
-          reRenderCalendar();
-        })
+            reRenderCalendar();
+        });
     }
 
     function createHeader() {
-      header.innerHTML = date.monthName + " " + date.currentYear;
+        header.innerHTML = date.monthName + " " + date.currentYear;
     }
 
     function currentDate() {
@@ -96,7 +95,6 @@
             el.className = "dayName";
             tableRow.appendChild(el);
         });
-
         table.appendChild(tableRow);
     }
 
@@ -104,8 +102,8 @@
         for (var i = 0; i < 5; i++) {
             var week = document.createElement('tr');
             week.className = "week";
-            console.log(date.currentYear, date.month);
-            var firstDayOfMonth = getFirstDayOfTheMonth(date.currentYear, date.month)
+            var firstDayOfMonth = getFirstDayOfTheMonth(date.currentYear, date.month);
+
             for (var j = 1; j < 8; j++) {
                 if (j > firstDayOfMonth || i > 0) {
                     var el = document.createElement('td');
@@ -139,17 +137,23 @@
     }
 
     function getInputValues() {
-      date.currentYear = document.getElementsByName("year")[0].value;
-      date.month = document.getElementsByName("month")[0].value - 1;
-      date.monthName = Object.keys(months)[date.month];
+        date.currentYear = document.getElementsByName("year")[0].value;
+        date.month = document.getElementsByName("month")[0].value - 1;
+        date.monthName = Object.keys(months)[date.month];
     }
+
     function reRenderCalendar() {
-      getInputValues();
-      emptyContents();
-      createHeader();
-      createDayNameHeader();
-      createTablesRows();
-      addElementsToPage();
+        getInputValues();
+
+        if (date.currentYear === 0 || date.month < 0) {
+            alert("Please enter correct values");
+        } else {
+            emptyContents();
+            createHeader();
+            createDayNameHeader();
+            createTablesRows();
+            addElementsToPage();
+        }
     }
 
     function isLastDayOfMonth(day, date) {
