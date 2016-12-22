@@ -18,15 +18,6 @@
         renderCalendar();
     }
 
-    function emptyContents() {
-        dayCount = 1;
-
-        datePicker.innerHTML = "";
-        table.innerHTML = "";
-        tableRow.innerHTML = "";
-        header.innerHTML = "";
-    }
-
     function init() {
         datePicker = document.createElement('div');
         datePicker.className = "datepicker";
@@ -58,8 +49,6 @@
 
         header = document.createElement('div');
         header.className = "header";
-
-        createHeader();
 
         dayCount = 1;
 
@@ -102,10 +91,11 @@
         for (var i = 0; i < 5; i++) {
             var week = document.createElement('tr');
             week.className = "week";
+
             var firstDayOfMonth = getFirstDayOfTheMonth(date.currentYear, date.month);
 
             for (var j = 1; j < 8; j++) {
-                if (j > firstDayOfMonth || i > 0) {
+                if (isDayTheFirstOfCurrentMonth(j, i, firstDayOfMonth)) {
                     var el = document.createElement('td');
                     el.innerHTML = dayCount;
                     el.className = "dayNumber";
@@ -113,15 +103,26 @@
                     week.appendChild(el);
                     dayCount = (isLastDayOfMonth(dayCount, date)) ? 1 : (dayCount + 1);
                 } else {
-                    var previous = document.createElement('td');
-                    var previousMonth = Object.keys(months)[date.month - 1];
-                    previous.innerHTML = months[previousMonth] - firstDayOfMonth + j;
-                    previous.className = "dayNumber";
-                    week.append(previous);
+                    var previousDays = fillDaysBeforeStartOfMonth(firstDayOfMonth, j);
+                    week.append(previousDays);
                 }
             }
             table.appendChild(week);
         }
+    }
+
+    function fillDaysBeforeStartOfMonth(firstDayOfMonth, j) {
+        var previous = document.createElement('td');
+        var previousMonth = Object.keys(months)[date.month - 1];
+
+        previous.innerHTML = months[previousMonth] - firstDayOfMonth + j;
+        previous.className = "dayNumber";
+
+        return previous;
+    }
+
+    function isDayTheFirstOfCurrentMonth(j, i, firstDayOfMonth) {
+        return (j > firstDayOfMonth || i > 0);
     }
 
     function addElementsToPage() {
@@ -130,7 +131,17 @@
         document.body.appendChild(datePicker);
     }
 
+    function emptyContents() {
+        dayCount = 1;
+
+        datePicker.innerHTML = "";
+        table.innerHTML = "";
+        tableRow.innerHTML = "";
+        header.innerHTML = "";
+    }
+
     function renderCalendar() {
+        createHeader();
         createDayNameHeader();
         createTablesRows();
         addElementsToPage();
