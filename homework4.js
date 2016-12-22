@@ -2,26 +2,37 @@
     'use strict';
 
     var datePicker,
-        month,
+        table,
         tableRow,
         months,
         daysOfWeek,
         header,
         dayCount,
-        previousButton,
-        date;
+        enterButton,
+        date,
+        month,
+        year;
 
     function start() {
         init();
         renderCalendar();
     }
 
+    function emptyContents() {
+      dayCount = 1;
+      
+      datePicker.innerHTML = "";
+      table.innerHTML = "";
+      tableRow.innerHTML = "";
+      header.innerHTML = "";
+    }
+
     function init() {
         datePicker = document.createElement('div');
         datePicker.className = "datepicker";
 
-        month = document.createElement('table');
-        month.className = "month";
+        table = document.createElement('table');
+        table.className = "month";
 
         tableRow = document.createElement('tr');
         tableRow.className = "week";
@@ -47,9 +58,20 @@
 
         header = document.createElement('div');
         header.className = "header";
-        header.innerHTML = date.monthName + " " + date.currentYear;
+
+        createHeader();
+
 
         dayCount = 1;
+
+        enterButton = document.querySelector('.enterButton');
+        enterButton.addEventListener("click", function(e) {
+          reRenderCalendar();
+        })
+    }
+
+    function createHeader() {
+      header.innerHTML = date.monthName + " " + date.currentYear;
     }
 
     function currentDate() {
@@ -75,13 +97,14 @@
             tableRow.appendChild(el);
         });
 
-        month.appendChild(tableRow);
+        table.appendChild(tableRow);
     }
 
     function createTablesRows() {
         for (var i = 0; i < 5; i++) {
             var week = document.createElement('tr');
             week.className = "week";
+            console.log(date.currentYear, date.month);
             var firstDayOfMonth = getFirstDayOfTheMonth(date.currentYear, date.month)
             for (var j = 1; j < 8; j++) {
                 if (j > firstDayOfMonth || i > 0) {
@@ -99,13 +122,13 @@
                     week.append(previous);
                 }
             }
-            month.appendChild(week);
+            table.appendChild(week);
         }
     }
 
     function addElementsToPage() {
         datePicker.appendChild(header);
-        datePicker.appendChild(month);
+        datePicker.appendChild(table);
         document.body.appendChild(datePicker);
     }
 
@@ -113,6 +136,20 @@
         createDayNameHeader();
         createTablesRows();
         addElementsToPage();
+    }
+
+    function getInputValues() {
+      date.currentYear = document.getElementsByName("year")[0].value;
+      date.month = document.getElementsByName("month")[0].value - 1;
+      date.monthName = Object.keys(months)[date.month];
+    }
+    function reRenderCalendar() {
+      getInputValues();
+      emptyContents();
+      createHeader();
+      createDayNameHeader();
+      createTablesRows();
+      addElementsToPage();
     }
 
     function isLastDayOfMonth(day, date) {
