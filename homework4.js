@@ -54,7 +54,7 @@
 
         enterButton = document.querySelector('.enterButton');
         enterButton.addEventListener("click", function(e) {
-            reRenderCalendar();
+            updateCalendar();
         });
     }
 
@@ -129,6 +129,7 @@
 
         previous.innerHTML = months[previousMonth] - firstDayOfMonth + j;
         previous.className = "dayNumber";
+        previous.style.color = "grey";
         previous.addEventListener("click", function() {
             var dateSelected = new Date(date.currentYear, date.month, this.innerHTML);
             alert(dateSelected.toDateString());
@@ -169,7 +170,7 @@
         date.monthName = Object.keys(months)[date.month];
     }
 
-    function reRenderCalendar() {
+    function updateCalendar() {
         getInputValues();
 
         if (checkInputValues(date.currentYear, date.month)) {
