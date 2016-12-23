@@ -11,6 +11,7 @@
         enterButton,
         date,
         month,
+        dateSelected,
         year;
 
     function start() {
@@ -59,7 +60,7 @@
     }
 
     function createHeader() {
-        header.innerHTML = date.monthName + " " + date.currentYear;
+        header.innerHTML = "&lt " + date.monthName + " " + date.currentYear + " &gt";
     }
 
     function currentDate() {
@@ -101,12 +102,12 @@
                     el.className = "dayNumber";
 
                     el.addEventListener("click", function() {
-                        var dateSelected = new Date(date.currentYear, date.month, this.innerHTML);
+                        dateSelected = new Date(date.currentYear, date.month, this.innerHTML);
                         alert(dateSelected.toDateString());
                     });
 
                     week.appendChild(el);
-                    dayCount = (isLastDayOfMonth(dayCount, date)) ? 1 : (dayCount + 1);
+                    dayCount = (isLastDayOfMonth(dayCount, date)) ? (fillDaysAfterEndOfMonth(j, week), j=8) : (dayCount + 1);
                 } else {
                     var previousDays = fillDaysBeforeStartOfMonth(firstDayOfMonth, j);
                     week.append(previousDays);
@@ -116,8 +117,27 @@
         }
     }
 
+    function fillDaysAfterEndOfMonth(j, parent) {
+        dayCount = 1;
+        var curr = j + 1;
+        for (var j = curr; j < 8; j++) {
+            var el = document.createElement('td');
+            el.innerHTML = dayCount;
+            el.style.color = "grey";
+            el.className = "dayNumber";
+
+            el.addEventListener("click", function() {
+                var dateSelected = new Date(date.currentYear, date.month + 1, this.innerHTML);
+                alert(dateSelected.toDateString());
+            });
+
+            parent.appendChild(el);
+            dayCount = dayCount + 1;
+        }
+    }
+
     Number.prototype.mod = function(n) {
-      return ((this%n)+n)%n;
+        return ((this % n) + n) % n;
     };
 
     function fillDaysBeforeStartOfMonth(firstDayOfMonth, j) {
@@ -128,10 +148,10 @@
         var previousMonth = mnths[(date.month - 1).mod(len)];
 
         previous.innerHTML = months[previousMonth] - firstDayOfMonth + j;
-        previous.className = "dayNumber";
+        previous.className = "previous dayNumber";
         previous.style.color = "grey";
         previous.addEventListener("click", function() {
-            var dateSelected = new Date(date.currentYear, date.month, this.innerHTML);
+            var dateSelected = new Date(date.currentYear, date.month - 1, this.innerHTML);
             alert(dateSelected.toDateString());
         });
 
@@ -185,7 +205,7 @@
     }
 
     function checkInputValues(year, month) {
-      return (year === "" || month < 0);
+        return (year === "" || month < 0);
     }
 
     function isLastDayOfMonth(day, date) {
