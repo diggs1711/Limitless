@@ -107,7 +107,7 @@
                     });
 
                     week.appendChild(el);
-                    dayCount = (isLastDayOfMonth(dayCount, date)) ? (fillDaysAfterEndOfMonth(j, week), j=8) : (dayCount + 1);
+                    dayCount = (isLastDayOfMonth(dayCount, date)) ? (fillDaysAfterEndOfMonth(j, week), j = 8) : (dayCount + 1);
                 } else {
                     var previousDays = fillDaysBeforeStartOfMonth(firstDayOfMonth, j);
                     week.append(previousDays);
