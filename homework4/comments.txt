@@ -1,0 +1,34 @@
+i think the main problem is not your ability of implementing it. the problem is your approach of visulising 
+this challenge
+
+[12:52]  
+
+it's pretty common. everyone in the class has this problem
+
+[12:53]  
+
+i appreciate your effort on this challenge
+
+[12:55]  
+
+for example your "renderCalendar" and "updateCalendar" -- what is the 
+difference between them?
+
+[12:56]  
+
+what if renderCalendar only give you an empty datepicker and later on you 
+feed data into it and it will figur out what to display :slightly_smiling_face:
+
+[12:57]  
+
+then from that point on you only have to change the data for diff month and feed it into your datepicker again.
+[12:57]
+this way you complete seperate the duty for data and the view
+
+[12:57]  
+
+try not to mix view element and data at "renderCalendar" stage
+
+[12:58]  
+
+you will find your life alot easier that 
