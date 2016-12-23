@@ -60,7 +60,7 @@
     }
 
     function createHeader() {
-        header.innerHTML = "&lt " + date.monthName + " " + date.currentYear + " &gt";
+        header.innerHTML = date.monthName + " " + date.currentYear;
     }
 
     function currentDate() {
