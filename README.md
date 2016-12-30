@@ -49,3 +49,46 @@ week.appendChild(date);
 month.appendChild(week);  
 datePicker.appendChild(month);  
 document.body.appendChild(datePicker);  
+
+
+#XMas Special Homework
+Create a piece of code that turn a flat structured array like "data" into a tree structured data like "processData".  
+As you can see in "data" every object contains its parent's id.  
+See who can do it in a very efficient way.!  
+good luck!!!  
+var data = [  
+    {"Id":"1", "Name":"abc", "parent":""},    
+    {"Id":"2", "Name":"abc", "parent":"1"},  
+    {"Id":"3", "Name":"abc", "parent":"2"},  
+    {"Id":"4", "Name":"abc", "parent":"2"}  
+];  
+  
+var processData = {  
+	root: {  
+		id: '1',  
+		name: 'abc',  
+		parent: '',   
+		children: [  
+			{   
+				id: '2',  
+				name: 'abc',  
+				parent: '1',  
+				children: [  
+					{  
+						id: '3',  
+						name: 'abc',  
+						parent: '2',  
+						children: []  
+					},  
+					{  
+						id: '4',  
+						name: 'abc',  
+						parent: '2',  
+						children: []  
+					}  
+				]  
+			}  
+		]  
+	}  
+}  
+  
