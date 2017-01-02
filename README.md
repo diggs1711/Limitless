@@ -13,6 +13,8 @@ III. Create a function that will filter out any element which contains number.
 // result ['ssfdds', 'bb'];  
 IV. Create a function that will take a array with size of 300 as input and return 300 dom elements each of which has the string as its content and then append them into the "body" so that you can see them on your screen. Style your list with css (you need to do the research youself on this part) to look like the design i attached in this session. Note that each string inside has to be a random string which has the size of 65 - 80.  
 // to create a dom element  
+
+```
 var ele = document.createElement('div');  
   
 // to add content to an element  
@@ -30,7 +32,8 @@ document.body.appendChild(ele);
 ...  
 ...  
 <div>blah blah</div>  
-  
+```
+
 # Homework for Session 4   
 With what you learned up to now  
 build a datepicker looks like the following design and see how far you can go.  
@@ -56,6 +59,7 @@ Create a piece of code that turn a flat structured array like "data" into a tree
 As you can see in "data" every object contains its parent's id.  
 See who can do it in a very efficient way.!  
 good luck!!!  
+```
 var data = [  
     {"Id":"1", "Name":"abc", "parent":""},    
     {"Id":"2", "Name":"abc", "parent":"1"},  
@@ -91,4 +95,4 @@ var processData = {
 		]  
 	}  
 }  
-  
+```  
