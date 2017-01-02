@@ -70,32 +70,27 @@ var data = [
     {"Id":"4", "Name":"abc", "parent":"2"}  
 ];  
   
-var processData = [
-  {
+var processData = [{
+"root":[{
     "Id": "1",
     "Name": "abc",
     "parent": "",
-    "children": [
-      {
+    "children": [{
         "Id": "2",
         "Name": "abc",
         "parent": "1",
-        "children": [
-          {
+        "children": [{
             "Id": "3",
             "Name": "abc",
             "parent": "2",
             "children": []
-          },
-          {
+        }, {
             "Id": "4",
             "Name": "abc",
             "parent": "2",
             "children": []
-          }
-        ]
-      }
-    ]
-  }
-]
+        }]
+    }]
+    }]
+}]
 ```  
