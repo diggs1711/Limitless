@@ -71,26 +71,26 @@ var data = [
 ];  
   
 var processData = [{
-"root":[{
-    "Id": "1",
-    "Name": "abc",
-    "parent": "",
-    "children": [{
-        "Id": "2",
+    "root": [{
+        "Id": "1",
         "Name": "abc",
-        "parent": "1",
+        "parent": "",
         "children": [{
-            "Id": "3",
+            "Id": "2",
             "Name": "abc",
-            "parent": "2",
-            "children": []
-        }, {
-            "Id": "4",
-            "Name": "abc",
-            "parent": "2",
-            "children": []
+            "parent": "1",
+            "children": [{
+                "Id": "3",
+                "Name": "abc",
+                "parent": "2",
+                "children": []
+            }, {
+                "Id": "4",
+                "Name": "abc",
+                "parent": "2",
+                "children": []
+            }]
         }]
-    }]
     }]
 }]
 ```  
