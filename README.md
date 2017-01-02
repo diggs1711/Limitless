@@ -45,7 +45,7 @@ you have learned how to attach event such as "click" yet, so, i don't expect you
 what i do expect from you is to have a function that takes the "year" and the "month" as input and when you render the page it will then show the datepicker for that year&month.  
 functions you might need:  
 
-```
+```JavaScript
 var datePicker = document.createElement('div');  
 var month = document.createElement('div'); // or table  
 var week = document.createElement('div'); // or tr  
@@ -62,7 +62,7 @@ Create a piece of code that turn a flat structured array like "data" into a tree
 As you can see in "data" every object contains its parent's id.  
 See who can do it in a very efficient way.!  
 good luck!!!  
-```
+```JSON
 var data = [  
     {"Id":"1", "Name":"abc", "parent":""},    
     {"Id":"2", "Name":"abc", "parent":"1"},  
