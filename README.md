@@ -62,7 +62,7 @@ Create a piece of code that turn a flat structured array like "data" into a tree
 As you can see in "data" every object contains its parent's id.  
 See who can do it in a very efficient way.!  
 good luck!!!  
-```JSON
+```JavaScript
 var data = [  
     {"Id":"1", "Name":"abc", "parent":""},    
     {"Id":"2", "Name":"abc", "parent":"1"},  
