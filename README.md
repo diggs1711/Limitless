@@ -57,7 +57,7 @@ datePicker.appendChild(month);
 document.body.appendChild(datePicker);  
 
 ```
-#XMas Special Homework
+#Xmas Special Homework
 Create a piece of code that turn a flat structured array like "data" into a tree structured data like "processData".  
 As you can see in "data" every object contains its parent's id.  
 See who can do it in a very efficient way.!  
