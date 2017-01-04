@@ -38,7 +38,6 @@
 
         tree = document.getElementsByClassName('tree')[0];
         lengthOfData = data.length;
-        displayData();
     }
 
     function displayData() {
@@ -61,7 +60,7 @@
               if (mappedElem.parent !== "") {
                   map[mappedElem['parent']]['children'].push(mappedElem);
               } else {
-                  
+
                   roots.push(mappedElem);
               }
           }
