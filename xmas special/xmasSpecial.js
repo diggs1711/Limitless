@@ -7,12 +7,15 @@
         map = {},
         mappedElem,
         node,
+        rt = {},
         roots = [];
 
     function start() {
         init();
+
         displayData();
         createNodeMap();
+
         createTree();
         displayTree();
     }
@@ -34,10 +37,20 @@
             "Id": "4",
             "Name": "abc",
             "parent": "2"
+        },
+        {
+        	"Id": "5",
+            "Name": "abc",
+            "parent": "3"
         }];
 
         tree = document.getElementsByClassName('tree')[0];
         lengthOfData = data.length;
+
+        rt = {
+        	"root" : []
+        };
+
     }
 
     function displayData() {
@@ -45,6 +58,8 @@
     }
 
     function createNodeMap() {
+    	roots.push(rt);
+
       for (var i = 0; i < lengthOfData; i++) {
           node = data[i];
           map[node.Id] = node;
@@ -60,8 +75,7 @@
               if (mappedElem.parent !== "") {
                   map[mappedElem['parent']]['children'].push(mappedElem);
               } else {
-
-                  roots.push(mappedElem);
+              		roots[0]['root'].push(mappedElem);
               }
           }
       }
