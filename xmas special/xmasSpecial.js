@@ -57,8 +57,6 @@
     }
 
     function createNodeMap() {
-
-
         for (var i = 0; i < lengthOfData; i++) {
             node = data[i];
             map[node.Id] = node;
