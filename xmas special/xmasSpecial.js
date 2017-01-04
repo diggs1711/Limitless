@@ -1,38 +1,78 @@
-var data = [
-    { "Id": "1", "Name": "abc", "parent": "" },
-    { "Id": "2", "Name": "abc", "parent": "1" },
-    { "Id": "3", "Name": "abc", "parent": "2" },
-    { "Id": "4", "Name": "abc", "parent": "2" }
-];
-var tree = document.getElementsByClassName('tree');
+(function() {
+    'use strict';
 
-tree[0].innerHTML = JSON.stringify(data, undefined, 2);
+    var data,
+        lengthOfData,
+        tree,
+        map = {},
+        mappedElem,
+        node,
+        roots = [];
 
-var map = {},
-    mappedElem,
-    node,
-    roots = [];
-
-for (var i = 0; i < data.length; i++) {
-    node = data[i];
-    map[node.Id] = node;
-    map[node.Id].children = [];
-
-}
-
-for (var id in map) {
-    if (map.hasOwnProperty(id)) {
-        mappedElem = map[id];
-
-        if (mappedElem.parent !== "") {
-            map[mappedElem['parent']]['children'].push(mappedElem);
-        } else {
-            roots.push(mappedElem);
-        }
+    function start() {
+        init();
+        displayData();
+        createNodeMap();
+        createTree();
+        displayTree();
     }
-}
 
-setTimeout(function() {
-    tree[0].innerHTML = JSON.stringify(roots, undefined, 2);
-    console.dir(roots);
-}, 3000)
+    function init() {
+        data = [{
+            "Id": "1",
+            "Name": "abc",
+            "parent": ""
+        }, {
+            "Id": "2",
+            "Name": "abc",
+            "parent": "1"
+        }, {
+            "Id": "3",
+            "Name": "abc",
+            "parent": "2"
+        }, {
+            "Id": "4",
+            "Name": "abc",
+            "parent": "2"
+        }];
+
+        tree = document.getElementsByClassName('tree')[0];
+        lengthOfData = data.length;
+        displayData();
+    }
+
+    function displayData() {
+        tree.innerHTML = JSON.stringify(data, undefined, 2);
+    }
+
+    function createNodeMap() {
+      for (var i = 0; i < lengthOfData; i++) {
+          node = data[i];
+          map[node.Id] = node;
+          map[node.Id].children = [];
+      }
+    }
+
+    function createTree() {
+      for (var id in map) {
+          if (map.hasOwnProperty(id)) {
+              mappedElem = map[id];
+
+              if (mappedElem.parent !== "") {
+                  map[mappedElem['parent']]['children'].push(mappedElem);
+              } else {
+                  
+                  roots.push(mappedElem);
+              }
+          }
+      }
+    }
+
+    function displayTree() {
+      setTimeout(function() {
+          tree.innerHTML = JSON.stringify(roots, undefined, 2);
+      }, 3000);
+    }
+
+    start();
+})();
