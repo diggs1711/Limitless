@@ -45,6 +45,7 @@
         },
         clearList: function() {
             this.displayEle.innerHTML = "";
+            this.matchedList = [];
         },
         appendElementToDiv: function(el) {
             var e = document.createElement('div');
@@ -53,8 +54,6 @@
         },
         findMatches: function(value) {
             var me = this;
-            this.matchedList = [];
-
             this.possibleList.map(me.addMatchesToList.bind(me, value));
         },
         addMatchesToList: function(input, str) {
@@ -105,9 +104,9 @@
         }
     };
 
-		String.prototype.contains = function(val) {
-				return this.toLowerCase().indexOf(val.toLowerCase()) > -1;
-		};
+    String.prototype.contains = function(val) {
+        return this.toLowerCase().indexOf(val.toLowerCase()) > -1;
+    };
 
     var app = {
         run: function() {
