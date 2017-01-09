@@ -67,6 +67,7 @@
 			var hightlightedText = str.substring(0,index) + "<span class='highlight'>" + str.substring(index, index+value.length) 
 				+"</span>" + str.substring(index+value.length, str.length);
 			this.matchedList.push(hightlightedText);
+
 		}
 	};
 
