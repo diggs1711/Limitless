@@ -39,7 +39,6 @@
             }
         },
         displayList: function(lst) {
-            this.clearList();
             var me = this;
             lst.map(me.appendElementToDiv.bind(this));
         },
@@ -54,6 +53,8 @@
         },
         findMatches: function(value) {
             var me = this;
+						this.clearList();
+						
             this.possibleList.map(me.addMatchesToList.bind(me, value));
         },
         addMatchesToList: function(input, str) {
