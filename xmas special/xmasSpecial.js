@@ -62,6 +62,7 @@
             map[node.Id] = node;
             map[node.Id].children = [];
         }
+
     }
 
     function createTree() {
@@ -69,7 +70,6 @@
         for (var id in map) {
             if (map.hasOwnProperty(id)) {
                 mappedElem = map[id];
-
                 if (mappedElem.parent !== "") {
                     map[mappedElem['parent']]['children'].push(mappedElem);
                 } else {
