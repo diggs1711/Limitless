@@ -8,14 +8,17 @@
 		listToDisplay: [],
 		possibleCharacters: "",
 		matchedList: [],
+
 		init: function() {
 			this.initEle();
 			this.initEvent();
+			this.initCharacterSet();
 		},
 		initEle: function() {
 			this.displayEle = document.querySelector('.list-display');
-			this.ele = document.querySelector('.input-text');
-
+			this.ele = document.querySelector('.input-text');	
+		},
+		initCharacterSet: function() {
 			this.possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.-_'";
 		},
 		initEvent: function() {
@@ -25,7 +28,8 @@
 		},
 		updateDisplayEle: function(input, event) {
 			var value = input.value;
-			inputCopyControl.findMatches(value);	
+			inputCopyControl.findMatches(value);
+			this.displayList(this.matchedList);	
 		},
 		createList: function() {
 			for(var i=0;i < 200;i++){
@@ -33,9 +37,12 @@
 			}
 		},
 		displayList: function(lst) {
-			this.displayEle.innerHTML = "";
+			this.clearList();
 			var me = this;
 			lst.map(me.appendElementToDiv.bind(this));
+		},
+		clearList: function() {
+			this.displayEle.innerHTML = "";
 		},
 		appendElementToDiv: function(el) {
 				var e = document.createElement('div');
@@ -43,17 +50,17 @@
 				this.displayEle.appendChild(e);
 		},
 		findMatches: function(value){
+			var me =this;
 			this.matchedList = [];
-			this.possibleList.filter(function(str){
-				var result = str.contains(value);
+
+			this.possibleList.filter(me.doesStringContainInputValue.bind(me, value));
+		},
+		doesStringContainInputValue: function(input, str){
+			var result = str.contains(input);
 				if(result){
-					this.highlightText(str, value);
+					this.highlightText(str, input);
 				};
-
-				return result
-			}.bind(this));
-
-			this.displayList(this.matchedList);
+				return result;
 		},
 		highlightText: function(str, value) {
 			var index = str.toLowerCase().indexOf(value.toLowerCase());
@@ -84,7 +91,6 @@
 	function randomCharacter() {
 		return inputCopyControl.possibleCharacters.charAt(getRandomNumber(0, inputCopyControl.possibleCharacters.length));
 	}
-
 
 	inputCopyControl.init();
 	inputCopyControl.createList();
