@@ -1,16 +1,13 @@
 (function(){
 	'use strict';
 
-	var list;
-	var possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.-_'";
-	var possibleList = [];
-	var listToDisplay = [];
-	var inputCount = 0;
-
 	var inputCopyControl = {
 		ele: null,
 		displayEle: null,
 		possibleList: [],
+		listToDisplay: [],
+		possibleCharacters: "",
+		matchedList: [],
 		init: function() {
 			this.initEle();
 			this.initEvent();
@@ -18,6 +15,8 @@
 		initEle: function() {
 			this.displayEle = document.querySelector('.list-display');
 			this.ele = document.querySelector('.input-text');
+
+			this.possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.-_'";
 		},
 		initEvent: function() {
 			var me = this, value;
@@ -26,9 +25,7 @@
 		},
 		updateDisplayEle: function(input, event) {
 			var value = input.value;
-			this.displayEle.innerText = value;
-			inputCopyControl.findMatches(value);
-			
+			inputCopyControl.findMatches(value);	
 		},
 		createList: function() {
 			for(var i=0;i < 200;i++){
@@ -36,27 +33,37 @@
 			}
 		},
 		displayList: function(lst) {
-			this.displayEle.innerText = "";
-			lst.map(function(el){
+			this.displayEle.innerHTML = "";
+			var me = this;
+			lst.map(me.appendElementToDiv.bind(this));
+		},
+		appendElementToDiv: function(el) {
 				var e = document.createElement('div');
-				var node = document.createTextNode(el);
-				e.appendChild(node);
+				e.innerHTML = el;
 				this.displayEle.appendChild(e);
-			}.bind(this));
 		},
 		findMatches: function(value){
-			var matches = this.possibleList.filter(function(str){
-				return str.contains(value);
-			});
-			this.displayList(matches);
+			this.matchedList = [];
+			this.possibleList.filter(function(str){
+				var result = str.contains(value);
+				if(result){
+					this.highlightText(str, value);
+				};
+
+				return result
+			}.bind(this));
+
+			this.displayList(this.matchedList);
+		},
+		highlightText: function(str, value) {
+			var index = str.toLowerCase().indexOf(value.toLowerCase());
+			var hightlightedText = str.substring(0,index) + "<span class='highlight'>" + str.substring(index, index+value.length) 
+				+"</span>" + str.substring(index+value.length, str.length);
+			this.matchedList.push(hightlightedText);
 		}
 	};
 
 	String.prototype.contains = function(val) {
-		var index = this.toLowerCase().indexOf(val.toLowerCase());
-		var s = this.split("");
-		inputCount++;
-
 		return this.toLowerCase().indexOf(val.toLowerCase()) > -1;
 	}
 
@@ -75,7 +82,7 @@
 	}
 
 	function randomCharacter() {
-		return possibleCharacters.charAt(getRandomNumber(0, possibleCharacters.length));
+		return inputCopyControl.possibleCharacters.charAt(getRandomNumber(0, inputCopyControl.possibleCharacters.length));
 	}
 
 
