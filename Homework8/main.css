@@ -1,4 +1,17 @@
 .slack__chat-display__chat-history__chat-item {
 	border : 1px solid black;
 	width : 30%;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.chat__input {
+	position: fixed;
+	bottom: 0px;
+	width: 90%;	
+}
+
+.chat__input__text {
+	border: 0.3px solid black;
+	width: 95%
 }

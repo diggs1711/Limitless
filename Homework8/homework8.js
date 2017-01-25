@@ -1,7 +1,7 @@
 var chatController = {
 
     onKeyUpEvent: function(e) {
-
+ 
         if (chatController.isEnterKey(e)) {
 
             var message = factory.createMessageElement();
@@ -38,7 +38,7 @@ var chatView = {
     },
 
     initListener: function() {
-        this.inputEle.addEventListener("keyup", chatController.onKeyUpEvent)
+        this.inputEle.addEventListener("keyup", chatController.onKeyUpEvent);
     },
 
     render: function(m) {
