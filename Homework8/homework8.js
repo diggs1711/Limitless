@@ -1,18 +1,16 @@
 var chatController = {
 
     onKeyUpEvent: function(e) {
- 
+
         if (chatController.isEnterKey(e)) {
 
             var message = factory.createMessageElement();
             chatModel.addMessage(message);
 
             chatView.render(chatModel.messages);
-
+            
         } else {
-
             chatModel.setDataMessage(this.value);
-
         }
     },
 
@@ -52,7 +50,7 @@ var chatView = {
     },
 
     clearInput: function() {
-    	this.inputEle.value = "";
+        this.inputEle.value = "";
     }
 
 };
@@ -95,9 +93,9 @@ var messageFactory = function() {
         },
 
         createMessageElement: function() {
-        	this.init();
-        	this.setMessageText();
-        	return this.ele;
+            this.init();
+            this.setMessageText();
+            return this.ele;
         }
     }
 };
