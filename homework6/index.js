@@ -8,7 +8,7 @@
             this.initEvent();
         },
         initEle: function() {
-            this.inputText = document.querySelector('.input-text');
+            this.inputText = document.querySelector('.js-input');
         },
         initEvent: function() {
             var me = this,
@@ -31,7 +31,7 @@
             this.initDisplayElement();
         },
         initDisplayElement: function() {
-            this.displayEle = document.querySelector('.list-display');
+            this.displayEle = document.querySelector('.js-list-display');
         },
         createList: function() {
             for (var i = 0; i < 200; i++) {
@@ -48,6 +48,7 @@
         },
         appendElementToDiv: function(el) {
             var e = document.createElement('div');
+            e.className = "list__item"
             e.innerHTML = el;
             this.displayEle.appendChild(e);
         },
@@ -75,7 +76,7 @@
             var vl = value.length;
             var sl = str.length;
 
-            return str.substring(0, index) + "<span class='highlight'>" + str.substring(index, index + vl) +
+            return str.substring(0, index) + "<span class='list__item--highlight'>" + str.substring(index, index + vl) +
                 "</span>" + str.substring(index + vl, sl);
         }
     }

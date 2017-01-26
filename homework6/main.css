@@ -1,10 +1,10 @@
-.input-text {
+.search__input {
     border: 1px solid #000;
     width: 20%;
     padding: 3px;
 }
 
-.list-display {
+.list {
     height: 200px;
     width: 300px;
     border: 1.5px solid #ccc;
@@ -12,11 +12,11 @@
     overflow: hidden;
 }
 
-.list-display div {
+.list__item {
     padding: 6px;
     border-bottom: 1.5px solid #ccc;
 }
 
-.highlight {
+.list__item--highlight {
     background-color: yellow;
 }
