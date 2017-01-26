@@ -80,31 +80,6 @@
         }
     }
 
-    var stringGeneratorControl = {
-        possibleCharacters: "",
-        init: function() {
-            this.initCharacterSet();
-        },
-        initCharacterSet: function() {
-            this.possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.-_'";
-        },
-        generateRandomString: function(min, max) {
-            var randNum = this.getRandomNumber(min, max);
-            var result = [];
-
-            for (var i = 0; i < randNum; i++) {
-                result.push(this.getRandomCharacter());
-            }
-            return result.join('');
-        },
-        getRandomNumber: function(min, max) {
-            return Math.floor((Math.random() * (max - min + 1)) + min);
-        },
-        getRandomCharacter: function() {
-            return this.possibleCharacters.charAt(this.getRandomNumber(0, this.possibleCharacters.length));
-        }
-    };
-
     String.prototype.contains = function(val) {
         return this.toLowerCase().indexOf(val.toLowerCase()) > -1;
     };
