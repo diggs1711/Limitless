@@ -27,9 +27,8 @@
             if (chatController.isEnterKey(e)) {
 
                 var message = factory.createMessageElement();
-                chatModel.addMessage(message);
-
-                chatView.render(chatModel.messages);
+                pubSub.publish("addMessage", message);
+                pubSub.publish("renderView", chatModel.getMessages());
 
             } else {
                 chatModel.setDataMessage(e.srcElement.value);
@@ -101,6 +100,10 @@
 
         addMessage: function(m) {
             this.messages.push(m);
+        },
+
+        getMessages: function() {
+          return this.messages;
         }
 
     };
@@ -128,9 +131,14 @@
 
     var factory = messageFactory(),
         _pubSub = pubSub,
-        _controller = chatController;
+        _controller = chatController,
+        _model = chatModel,
+        _view = chatView;
 
-    _pubSub.subscribe("keyEvent", _controller.onKeyUpEvent)
-    chatView.init();
+    _pubSub.subscribe("keyEvent", _controller.onKeyUpEvent);
+    _pubSub.subscribe("addMessage", _model.addMessage.bind(_model));
+    _pubSub.subscribe("renderView", _view.render.bind(_view));
+
+    _view.init();
 
 })();
