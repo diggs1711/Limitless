@@ -3,8 +3,11 @@
     var pubSub = {
         handlers: [],
 
-        subscribe: function(fn) {
-            this.handlers.push(fn);
+        subscribe: function(event, fn) {
+            this.handlers.push({
+                event: event,
+                handler: fn
+            });
         },
 
         unsubscribe: function(fn) {
@@ -17,11 +20,11 @@
             )
         },
 
-        publish: function(o, thisObj) {
-            var scope = thisObj || window;
-            console.log(o)
-            pubSub.handlers.forEach(function(item) {
-                item.call(scope, o);
+        publish: function(event, keyClick) {
+            pubSub.handlers.forEach(function(n) {
+                if (n.event === event) {
+                    n.handler.call(n, keyClick);
+                }
             });
         }
     };
@@ -49,8 +52,6 @@
 
     };
 
-    pubSub.subscribe(chatController.onKeyUpEvent)
-
     var chatView = {
 
         displayEle: null,
@@ -67,7 +68,11 @@
         },
 
         initListener: function() {
-            this.inputEle.addEventListener("keyup", pubSub.publish);
+            this.inputEle.addEventListener("keyup", this.publishClick);
+        },
+
+        publishClick: function(e) {
+            pubSub.publish("keyEvent", e);
         },
 
         render: function(m) {
@@ -131,7 +136,11 @@
         }
     };
 
-    var factory = messageFactory();
+    var factory = messageFactory(),
+        _pubSub = pubSub,
+        _controller = chatController;
+
+    _pubSub.subscribe("keyEvent", _controller.onKeyUpEvent)
     chatView.init();
 
 })();
