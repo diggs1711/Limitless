@@ -31,7 +31,7 @@
                 pubSub.publish("renderView", chatModel.getMessages());
 
             } else {
-                chatModel.setDataMessage(e.srcElement.value);
+                pubSub.publish("setDataMessage", e.srcElement.value);
             }
         },
 
@@ -103,7 +103,7 @@
         },
 
         getMessages: function() {
-          return this.messages;
+            return this.messages;
         }
 
     };
@@ -138,6 +138,7 @@
     _pubSub.subscribe("keyEvent", _controller.onKeyUpEvent);
     _pubSub.subscribe("addMessage", _model.addMessage.bind(_model));
     _pubSub.subscribe("renderView", _view.render.bind(_view));
+    _pubSub.subscribe("setDataMessage", _model.setDataMessage.bind(_model));
 
     _view.init();
 
