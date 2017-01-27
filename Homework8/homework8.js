@@ -1,9 +1,36 @@
 (function() {
 
+    var pubSub = {
+        handlers: [],
+
+        subscribe: function(fn) {
+            this.handlers.push(fn);
+        },
+
+        unsubscribe: function(fn) {
+            this.handlers = this.handlers.filter(
+                function(item) {
+                    if (item !== fn) {
+                        return item;
+                    }
+                }
+            )
+        },
+
+        publish: function(o, thisObj) {
+            var scope = thisObj || window;
+            console.log(o)
+            pubSub.handlers.forEach(function(item) {
+                item.call(scope, o);
+            });
+        }
+    };
+
+
+
     var chatController = {
 
         onKeyUpEvent: function(e) {
-
             if (chatController.isEnterKey(e)) {
 
                 var message = factory.createMessageElement();
@@ -12,7 +39,7 @@
                 chatView.render(chatModel.messages);
 
             } else {
-                chatModel.setDataMessage(this.value);
+                chatModel.setDataMessage(e.srcElement.value);
             }
         },
 
@@ -21,6 +48,8 @@
         }
 
     };
+
+    pubSub.subscribe(chatController.onKeyUpEvent)
 
     var chatView = {
 
@@ -38,7 +67,7 @@
         },
 
         initListener: function() {
-            this.inputEle.addEventListener("keyup", chatController.onKeyUpEvent);
+            this.inputEle.addEventListener("keyup", pubSub.publish);
         },
 
         render: function(m) {
