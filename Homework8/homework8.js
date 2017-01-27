@@ -10,21 +10,11 @@
             });
         },
 
-        unsubscribe: function(fn) {
-            this.handlers = this.handlers.filter(
-                function(item) {
-                    if (item !== fn) {
-                        return item;
-                    }
-                }
-            )
-        },
-
-        publish: function(event, keyClick) {
-            pubSub.handlers.forEach(function(n) {
-                if (n.event === event) {
-                    n.handler.call(n, keyClick);
-                }
+        publish: function(event, k) {
+            pubSub.handlers.forEach(function(fn) {
+                if (fn.event === event) {
+                    fn.handler.call(fn, k);
+                };
             });
         }
     };
