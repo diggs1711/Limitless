@@ -3,7 +3,7 @@
     var chatController = {
 
         onKeyUpEvent: function(e) {
-
+ 
             if (chatController.isEnterKey(e)) {
 
                 var message = factory.createMessageElement();
