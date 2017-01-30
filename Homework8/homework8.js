@@ -9,8 +9,8 @@
             if (this.handlers.length === 0) {
                 this.addEvent(event, fn, scope);
             } else {
-            	if(!this.checkIfElementExists(this.handlers, event))
-            		this.addEvent(event, fn, scope);    
+                if (!this.checkIfElementExists(this.handlers, event))
+                    this.addEvent(event, fn, scope);
             }
         },
 
@@ -30,17 +30,17 @@
         },
 
         doesEventExist: function(element, event) {
-        	return element.event === event;
+            return element.event === event;
         },
 
         checkIfElementExists: function(handlers, event) {
-        	 	handlers.forEach(function(element, index) {
-                    if (this.doesEventExist(element, event)) {
-                        return true;
-                    } else {
-                    	return false;
-                    }
-                }, this);
+            handlers.forEach(function(element, index) {
+                if (this.doesEventExist(element, event)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }, this);
         }
 
 
