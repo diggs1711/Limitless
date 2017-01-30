@@ -5,6 +5,7 @@
 
         subscribe: function(event, fn, scope) {
             scope = scope || fn;
+            
             this.handlers.push({
                 event: event,
                 handler: fn.bind(scope)
@@ -26,7 +27,6 @@
 
         onKeyUpEvent: function(e) {
             if (chatController.isEnterKey(e)) {
-
                 var message = factory.createMessageElement();
                 pubSub.publish("addMessage", message);
                 pubSub.publish("renderView", chatModel.getMessages());
@@ -89,7 +89,6 @@
             message: "",
             pictureUrl: ""
         },
-
 
         setDataMessage: function(m) {
             this.data.message = m;
