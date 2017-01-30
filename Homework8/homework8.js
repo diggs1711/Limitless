@@ -1,18 +1,48 @@
 (function() {
 
+    var pubSub = {
+        handlers: [],
+
+        subscribe: function(event, fn) {
+
+            this.handlers.forEach(function(element, index) {
+                if (element.event === event) {
+                    break;
+                } else {
+                    this.handlers.push({
+                        event: event,
+                        handler: fn
+                    });
+                }
+            });
+
+
+        },
+
+        publish: function(event, k, scope) {
+            pubSub.handlers.forEach(function(fn) {
+                if (fn.event === event) {
+                	var s = scope || fn;
+                    fn.handler.call(s, k);
+                };
+            });
+        }
+    };
+
+
+
     var chatController = {
 
         onKeyUpEvent: function(e) {
- 
+
             if (chatController.isEnterKey(e)) {
 
                 var message = factory.createMessageElement();
-                chatModel.addMessage(message);
-
-                chatView.render(chatModel.messages);
+                pubSub.publish("addMessage", message);
+                pubSub.publish("renderView", chatModel.getMessages());
 
             } else {
-                chatModel.setDataMessage(this.value);
+                pubSub.publish("setDataMessage", e.srcElement.value);
             }
         },
 
@@ -38,7 +68,11 @@
         },
 
         initListener: function() {
-            this.inputEle.addEventListener("keyup", chatController.onKeyUpEvent);
+            this.inputEle.addEventListener("keyup", this.publishClick);
+        },
+
+        publishClick: function(e) {
+            pubSub.publish("keyEvent", e);
         },
 
         render: function(m) {
@@ -77,6 +111,10 @@
 
         addMessage: function(m) {
             this.messages.push(m);
+        },
+
+        getMessages: function() {
+            return this.messages;
         }
 
     };
@@ -102,7 +140,17 @@
         }
     };
 
-    var factory = messageFactory();
-    chatView.init();
+    var factory = messageFactory(),
+        _pubSub = pubSub,
+        _controller = chatController,
+        _model = chatModel,
+        _view = chatView;
+
+    _pubSub.subscribe("keyEvent", _controller.onKeyUpEvent);
+    _pubSub.subscribe("addMessage", _model.addMessage.bind(_model));
+    _pubSub.subscribe("renderView", _view.render.bind(_view));
+    _pubSub.subscribe("setDataMessage", _model.setDataMessage.bind(_model));
+
+    _view.init();
 
 })();
