@@ -3,29 +3,48 @@
     var pubSub = {
         handlers: [],
 
-        subscribe: function(event, fn) {
+        subscribe: function(event, fn, scope) {
+            scope = scope || fn;
 
-            this.handlers.forEach(function(element, index) {
-                if (element.event === event) {
-                    break;
-                } else {
-                    this.handlers.push({
-                        event: event,
-                        handler: fn
-                    });
-                }
-            });
+            if (this.handlers.length === 0) {
 
+                this.addEvent(event, fn, scope);
 
+            } else {
+
+                this.handlers.forEach(function(element, index) {
+                    if (this.doesEventExist(element, event)) {
+
+                        console.log("event already exists");
+
+                    } else {
+
+                    	this.addEvent(event, fn, scope);
+
+                    }
+
+                }, this);
+            }
         },
 
-        publish: function(event, k, scope) {
+        publish: function(event, data) {
+
             pubSub.handlers.forEach(function(fn) {
                 if (fn.event === event) {
-                	var s = scope || fn;
-                    fn.handler.call(s, k);
-                };
+                    fn.handler.call(fn, data);
+                }
+            })
+        },
+
+        addEvent: function(event, fn, scope) {
+            this.handlers.push({
+                event: event,
+                handler: fn.bind(scope)
             });
+        },
+
+        doesEventExist: function(element, event) {
+        	return element.event === event;
         }
     };
 
@@ -36,7 +55,6 @@
         onKeyUpEvent: function(e) {
 
             if (chatController.isEnterKey(e)) {
-
                 var message = factory.createMessageElement();
                 pubSub.publish("addMessage", message);
                 pubSub.publish("renderView", chatModel.getMessages());
@@ -100,7 +118,6 @@
             pictureUrl: ""
         },
 
-
         setDataMessage: function(m) {
             this.data.message = m;
         },
@@ -147,9 +164,9 @@
         _view = chatView;
 
     _pubSub.subscribe("keyEvent", _controller.onKeyUpEvent);
-    _pubSub.subscribe("addMessage", _model.addMessage.bind(_model));
-    _pubSub.subscribe("renderView", _view.render.bind(_view));
-    _pubSub.subscribe("setDataMessage", _model.setDataMessage.bind(_model));
+    _pubSub.subscribe("addMessage", _model.addMessage, _model);
+    _pubSub.subscribe("renderView", _view.render, _view);
+    _pubSub.subscribe("setDataMessage", _model.setDataMessage, _model);
 
     _view.init();
 
