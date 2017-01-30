@@ -9,13 +9,8 @@
             if (this.handlers.length === 0) {
                 this.addEvent(event, fn, scope);
             } else {
-                this.handlers.forEach(function(element, index) {
-                    if (this.doesEventExist(element, event)) {
-                        console.log("event already exists");
-                    } else {
-                    	this.addEvent(event, fn, scope);
-                    }
-                }, this);
+            	if(!this.checkIfElementExists(this.handlers, event))
+            		this.addEvent(event, fn, scope);    
             }
         },
 
@@ -38,6 +33,16 @@
         doesEventExist: function(element, event) {
         	return element.event === event;
         },
+
+        checkIfElementExists: function(handlers, event) {
+        	 	handlers.forEach(function(element, index) {
+                    if (this.doesEventExist(element, event)) {
+                        return true;
+                    } else {
+                    	return false;
+                    }
+                }, this);
+        }
 
 
     };
