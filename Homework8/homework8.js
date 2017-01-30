@@ -8,17 +8,13 @@
 
             if (this.handlers.length === 0) {
                 this.addEvent(event, fn, scope);
-
             } else {
                 this.handlers.forEach(function(element, index) {
                     if (this.doesEventExist(element, event)) {
                         console.log("event already exists");
-
                     } else {
                     	this.addEvent(event, fn, scope);
-                    	
                     }
-
                 }, this);
             }
         },
@@ -41,7 +37,9 @@
 
         doesEventExist: function(element, event) {
         	return element.event === event;
-        }
+        },
+
+
     };
 
 
