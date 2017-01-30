@@ -15,7 +15,6 @@
         },
 
         publish: function(event, data) {
-
             pubSub.handlers.forEach(function(fn) {
                 if (fn.event === event) {
                     fn.handler.call(fn, data);
@@ -52,7 +51,6 @@
     var chatController = {
 
         onKeyUpEvent: function(e) {
-
             if (chatController.isEnterKey(e)) {
                 var message = factory.createMessageElement();
                 pubSub.publish("addMessage", message);
@@ -70,7 +68,6 @@
     };
 
     var chatView = {
-
         displayEle: null,
         inputEle: null,
 
@@ -109,7 +106,6 @@
     };
 
     var chatModel = {
-
         messages: [],
 
         data: {
