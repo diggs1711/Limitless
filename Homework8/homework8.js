@@ -11,10 +11,10 @@
             });
         },
 
-        publish: function(event, k) {
+        publish: function(event, data) {
             pubSub.handlers.forEach(function(fn) {
                 if (fn.event === event) {
-                    fn.handler.call(fn, k);
+                    fn.handler.call(fn, data);
                 };
             });
         }
