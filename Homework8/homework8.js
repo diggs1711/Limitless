@@ -3,10 +3,11 @@
     var pubSub = {
         handlers: [],
 
-        subscribe: function(event, fn) {
+        subscribe: function(event, fn, scope) {
+            scope = scope || fn;
             this.handlers.push({
                 event: event,
-                handler: fn
+                handler: fn.bind(scope)
             });
         },
 
@@ -136,9 +137,9 @@
         _view = chatView;
 
     _pubSub.subscribe("keyEvent", _controller.onKeyUpEvent);
-    _pubSub.subscribe("addMessage", _model.addMessage.bind(_model));
-    _pubSub.subscribe("renderView", _view.render.bind(_view));
-    _pubSub.subscribe("setDataMessage", _model.setDataMessage.bind(_model));
+    _pubSub.subscribe("addMessage", _model.addMessage, _model);
+    _pubSub.subscribe("renderView", _view.render, _view);
+    _pubSub.subscribe("setDataMessage", _model.setDataMessage, _model);
 
     _view.init();
 
