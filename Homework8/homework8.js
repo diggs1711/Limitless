@@ -6,12 +6,8 @@
         subscribe: function(event, fn, scope) {
             scope = scope || fn;
 
-            if (this.handlers.length === 0) {
+            if (!this.checkIfElementExists(this.handlers, event))
                 this.addEvent(event, fn, scope);
-            } else {
-                if (!this.checkIfElementExists(this.handlers, event))
-                    this.addEvent(event, fn, scope);
-            }
         },
 
         publish: function(event, data) {
@@ -34,22 +30,25 @@
         },
 
         checkIfElementExists: function(handlers, event) {
-            handlers.forEach(function(element, index) {
-                if (this.doesEventExist(element, event)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }, this);
+            if (this.isArrayEmpty(handlers)) {
+                return false;
+            } else {
+                handlers.forEach(function(element, index) {
+                    if (this.doesEventExist(element, event)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }, this);
+            }
+        },
+
+        isArrayEmpty: function(arr) {
+            return this.handlers.length === 0;
         }
-
-
     };
 
-
-
     var chatController = {
-
         onKeyUpEvent: function(e) {
             if (chatController.isEnterKey(e)) {
                 var message = factory.createMessageElement();
