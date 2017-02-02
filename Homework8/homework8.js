@@ -34,11 +34,7 @@
                 return false;
             } else {
                 handlers.forEach(function(element, index) {
-                    if (this.doesEventExist(element, event)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return this.doesEventExist(element, event) ? true : false;
                 }, this);
             }
         },
