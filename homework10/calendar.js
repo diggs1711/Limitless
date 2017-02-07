@@ -1,4 +1,5 @@
 (function() {
+
     var datepicker = {
         ele: null,
         wrap: null,
@@ -67,27 +68,25 @@
         },
 
         checkIfElementExists: function(handlers, event) {
-            if (this.isArrayEmpty(handlers)) {
-                return false;
-            } else {
-                handlers.forEach(function(element, index) {
-                    if (this.doesEventExist(element, event)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }, this);
-            }
-        },
+            if (this.isArrayEmpty(handlers)) return false;
 
+            handlers.forEach(function(element, index) {
+                return this.doesEventExist(element, event) ? true : false;
+            }, this);
+        },
         isArrayEmpty: function(arr) {
             return this.handlers.length === 0;
         }
+
+
     };
 
     var calendarView = {
         dates: null,
         spinner: null,
+        eventDisplay: null,
+        popup: null,
+        mask: null,
 
         init: function() {
             this.initElements();
@@ -96,13 +95,15 @@
 
         initElements: function() {
             this.dates = document.querySelector(".dates");
+
             this.spinner = document.createElement("div");
             this.spinner.className = "spinner";
+
+            this.popup = document.querySelector(".popup");
+            this.mask = document.querySelector(".mask");
         },
 
         initListeners: function() {
-            var me = this;
-
             this.dates.addEventListener("click", this.publishClick);
         },
 
@@ -112,21 +113,94 @@
 
         appendSpinner: function(s) {
             s.appendChild(this.spinner);
+        },
+
+        displayEvents: function(events) {
+            this.createEventDisplay();
+            this.addEventsToPopup(events);
+            this.displayPopup();
+        },
+        createEventDisplay: function() {
+            this.eventDisplay = document.createElement("div");
+            this.eventDisplay.className = "events";
+        },
+        addEventsToPopup: function(events){
+            var self = this;
+
+            events.forEach(function(e) {
+                var d = document.createElement("div");
+                d.className = "event";
+                d.innerText = e.title;
+
+                self.eventDisplay.appendChild(d);
+            });
+        },
+        displayPopup: function() {
+            var self = this;
+
+            setTimeout(function() {
+                self.spinner.classList.add("hidden");
+                self.mask.classList.remove("hidden");
+                self.popup.appendChild(self.eventDisplay);
+                self.popup.classList.remove("hidden");
+            }, 2000);
+            
         }
+
 
     };
 
     var calendarController = {
         onDateClick: function(e) {
             var dateClicked = e.target.innerText;
+            var events = this.getEventsForDate(dateClicked);
 
             pubSub.publish("appendSpinner", e.target);
+            pubSub.publish("displayEvents", events);      
+        },
+
+        getEventsForDate: function(dateSelected) {
+            return calendarModel.getEvents(dateSelected);
         }
+
     };
 
-
     var calendarModel = {
+        events: [ {
+            date: "1",
+            title: "Test",
+            description: "test deacription"
+        }],
+        eventObj : {
+            date: null,
+            title: "",
+            description: ""
+        },
+
+        getEvents: function(date){
+            return this.events.filter(this.matchDates.bind(this, date));
+        },
+
+        matchDates: function(d, e) {
+            return e.date.trim() === d.trim();
+        },
+
+        createEvent: function(date, t, d) {
+            var event = new eventObj();
+
+            event.date = date;
+            event.title = t;
+            event.description = d;
+
+            return event;
+        },
+
+        addEvent: function(e) {
+            this.events.push(e);
+        },
+
         yearMonth: { year: null, month: null },
+
         data: Array(42),
         init: function() {
             this.setYearMonth({
@@ -187,15 +261,15 @@
         }
     };
 
-
     calendarModel.init();
     datepicker.init();
-    var d = calendarModel.refreshData();
-    datepicker.refreshDates(d);
-    //document.querySelector('.month').innerText = datepicker.dataModel.getYearMonth().month;
-
+    var refresh = calendarModel.refreshData();
+    datepicker.refreshDates(refresh);
+    
     calendarView.init();
-    pubSub.subscribe("onDateClick", calendarController.onDateClick);
+    pubSub.subscribe("onDateClick", calendarController.onDateClick, calendarController);
     pubSub.subscribe("appendSpinner", calendarView.appendSpinner, calendarView);
+    pubSub.subscribe("getEventsForDate", calendarController.getEventsForDate, calendarController);
+    pubSub.subscribe("displayEvents", calendarView.displayEvents, calendarView);
 
 })();
