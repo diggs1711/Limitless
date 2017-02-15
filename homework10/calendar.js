@@ -222,13 +222,13 @@
             var d = document.createElement("div");
             d.className = "event";
             d.innerText = title;
-            return d; 
+            return d;
         },
 
         addEventsToPopup: function(events) {
             var self = this;
 
-            
+
             if (events.length === 0) {
                 var d = self.createEventElement("No events for this date");
                 self.eventDisplay.appendChild(d);
