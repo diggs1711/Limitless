@@ -83,7 +83,6 @@
     };
 
     var mask = (function() {
-        'use strict';
 
         var Mask = {
             mainEle: null,
@@ -100,7 +99,11 @@
             initListeners: function() {
                 var me = this;
 
-                this.maskEle.addEventListener('click', me.hide.bind(me));
+                this.maskEle.addEventListener('click', me.clearMask);
+            },
+
+            clearMask: function(e) {
+                pubSub.publish("onMaskClick", e);
             },
 
             show: function() {
@@ -146,11 +149,37 @@
         return Loading;
     })();
 
+    var popup = (function() {
+
+        var popup = {
+            popupEle: null,
+
+            init: function() {
+                this.initElements();
+            },
+
+            initElements: function() {
+                this.popupEle = document.querySelector('.popup');
+            },
+
+            show: function() {
+                this.popupEle.classList.remove('hidden');
+            },
+
+            hide: function() {
+                this.popupEle.classList.add('hidden');
+            }
+        };
+
+        return popup;
+
+    })();
+
     var calendarView = {
         dates: null,
         spinner: spinner,
         eventDisplay: null,
-        popup: null,
+        popup: popup,
         mask: mask,
 
         init: function() {
@@ -160,7 +189,7 @@
 
         initElements: function() {
             this.dates = document.querySelector(".dates");
-            this.popup = document.querySelector(".popup");
+            this.popup.init();
             this.mask.init();
             this.spinner.init();
         },
@@ -173,50 +202,68 @@
             pubSub.publish("onDateClick", e);
         },
 
-        appendSpinner: function(s) {
-            console.log(this.spinner)
-            s.appendChild(this.spinner.loadingEle);
+        appendSpinner: function(day) {
+            this.spinner.show();
+            day.appendChild(this.spinner.loadingEle);
         },
 
         displayEvents: function(events) {
-            this.createEventDisplay();
+            this.initEventDisplay();
             this.addEventsToPopup(events);
             this.displayPopup();
         },
 
-        createEventDisplay: function() {
+        initEventDisplay: function() {
             this.eventDisplay = document.createElement("div");
             this.eventDisplay.className = "events";
+        },
+
+        createEventElement: function(title) {
+            var d = document.createElement("div");
+            d.className = "event";
+            d.innerText = title;
+            return d; 
         },
 
         addEventsToPopup: function(events) {
             var self = this;
 
-            events.forEach(function(e) {
-                var d = document.createElement("div");
-                d.className = "event";
-                d.innerText = e.title;
-
+            
+            if (events.length === 0) {
+                var d = self.createEventElement("No events for this date");
                 self.eventDisplay.appendChild(d);
-            });
+            } else {
+                events.forEach(function(e) {
+                    var d = self.createEventElement(e.title);
+                    self.eventDisplay.appendChild(d);
+                });
+            }
+
         },
         displayPopup: function() {
             var self = this;
 
             setTimeout(function() {
                 self.spinner.hide();
-                self.popup.appendChild(self.eventDisplay);
-                self.popup.classList.remove("hidden");
+                self.popup.popupEle.appendChild(self.eventDisplay);
+                self.popup.show();
                 self.mask.show();
 
             }, 2000);
 
+        },
+
+        clearPopup: function() {
+            this.eventDisplay.parentNode.removeChild(this.eventDisplay);
+            this.popup.hide();
+            this.mask.hide();
         }
 
 
     };
 
     var calendarController = {
+
         onDateClick: function(e) {
             var d = e.target;
             var dateClicked = d.innerText;
@@ -332,10 +379,6 @@
         }
     };
 
-    var popup = {
-
-    }
-
     calendarModel.init();
     datepicker.init();
     datepicker.refreshDates(calendarModel.refreshData());
@@ -344,5 +387,6 @@
     pubSub.subscribe("onDateClick", calendarController.onDateClick, calendarController);
     pubSub.subscribe("appendSpinner", calendarView.appendSpinner, calendarView);
     pubSub.subscribe("displayEvents", calendarView.displayEvents, calendarView);
+    pubSub.subscribe("onMaskClick", calendarView.clearPopup, calendarView);
 
 })();
