@@ -25,12 +25,13 @@
 .popup {
     margin-left: auto;
     margin-right: auto;
-    position: absolute;
+    position: relative;
     width: 300px;
     height: 400px;
     z-index: 1000;
     top: 0px;
-    background: red;
+    background: #fff;
+    border: 1px solid #ccc;
     color: white;
 }
 
@@ -52,4 +53,11 @@
     height: 100%;
     z-index: 500;
     background-color: rgba(0, 0, 0, 0.5);
+}
+
+.event {
+    color: #232323;
+    padding: 1em;
+    border-bottom: 1px solid #ccc;
+    margin-top: 1em;    
 }

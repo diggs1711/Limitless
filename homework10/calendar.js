@@ -1,4 +1,5 @@
 (function() {
+    'use strict';
 
     var datepicker = {
         ele: null,
@@ -81,12 +82,76 @@
 
     };
 
+    var mask = (function() {
+        'use strict';
+
+        var Mask = {
+            mainEle: null,
+            maskEle: null,
+            init: function() {
+                this.initElements();
+                this.initListeners();
+            },
+
+            initElements: function() {
+                this.maskEle = document.querySelector(".mask");
+            },
+
+            initListeners: function() {
+                var me = this;
+
+                this.maskEle.addEventListener('click', me.hide.bind(me));
+            },
+
+            show: function() {
+                this.maskEle.classList.remove("hidden");
+            },
+
+            hide: function() {
+                this.maskEle.classList.add("hidden");
+            }
+        };
+
+        return Mask;
+    })();
+
+    var spinner = (function() {
+
+        var Loading = {
+            mainEle: null,
+            loadingEle: null,
+            init: function() {
+                this.initElements();
+            },
+
+            initElements: function() {
+                this.loadingEle = this.createSpinnerElement();
+            },
+
+            createSpinnerElement: function() {
+                var s = document.createElement("div");
+                s.className = "spinner"
+                return s;
+            },
+
+            show: function() {
+                this.loadingEle.classList.remove("hidden");
+            },
+
+            hide: function() {
+                this.loadingEle.classList.add("hidden");
+            }
+        };
+
+        return Loading;
+    })();
+
     var calendarView = {
         dates: null,
-        spinner: null,
+        spinner: spinner,
         eventDisplay: null,
         popup: null,
-        mask: null,
+        mask: mask,
 
         init: function() {
             this.initElements();
@@ -95,12 +160,9 @@
 
         initElements: function() {
             this.dates = document.querySelector(".dates");
-
-            this.spinner = document.createElement("div");
-            this.spinner.className = "spinner";
-
             this.popup = document.querySelector(".popup");
-            this.mask = document.querySelector(".mask");
+            this.mask.init();
+            this.spinner.init();
         },
 
         initListeners: function() {
@@ -112,7 +174,8 @@
         },
 
         appendSpinner: function(s) {
-            s.appendChild(this.spinner);
+            console.log(this.spinner)
+            s.appendChild(this.spinner.loadingEle);
         },
 
         displayEvents: function(events) {
@@ -120,11 +183,13 @@
             this.addEventsToPopup(events);
             this.displayPopup();
         },
+
         createEventDisplay: function() {
             this.eventDisplay = document.createElement("div");
             this.eventDisplay.className = "events";
         },
-        addEventsToPopup: function(events){
+
+        addEventsToPopup: function(events) {
             var self = this;
 
             events.forEach(function(e) {
@@ -139,12 +204,13 @@
             var self = this;
 
             setTimeout(function() {
-                self.spinner.classList.add("hidden");
-                self.mask.classList.remove("hidden");
+                self.spinner.hide();
                 self.popup.appendChild(self.eventDisplay);
                 self.popup.classList.remove("hidden");
+                self.mask.show();
+
             }, 2000);
-            
+
         }
 
 
@@ -152,32 +218,48 @@
 
     var calendarController = {
         onDateClick: function(e) {
-            var dateClicked = e.target.innerText;
-            var events = this.getEventsForDate(dateClicked);
+            var d = e.target;
+            var dateClicked = d.innerText;
+            var events = calendarModel.getEvents(dateClicked);
 
-            pubSub.publish("appendSpinner", e.target);
-            pubSub.publish("displayEvents", events);      
+            pubSub.publish("appendSpinner", d);
+            pubSub.publish("displayEvents", events);
         },
-
-        getEventsForDate: function(dateSelected) {
-            return calendarModel.getEvents(dateSelected);
-        }
 
     };
 
     var calendarModel = {
-        events: [ {
+
+        yearMonth: { year: null, month: null },
+        data: Array(42),
+        events: [{
             date: "1",
             title: "Test",
             description: "test deacription"
-        }],
-        eventObj : {
+        }, {
+            date: "2",
+            title: "Test2",
+            description: "test deacription"
+        }, {
+            date: "2",
+            title: "Test3",
+            description: "test deacription"
+        }, ],
+        eventObj: {
             date: null,
             title: "",
             description: ""
         },
 
-        getEvents: function(date){
+        init: function() {
+            this.setYearMonth({
+                year: 2017,
+                month: 0
+            });
+            this.refreshData();
+        },
+
+        getEvents: function(date) {
             return this.events.filter(this.matchDates.bind(this, date));
         },
 
@@ -197,17 +279,6 @@
 
         addEvent: function(e) {
             this.events.push(e);
-        },
-
-        yearMonth: { year: null, month: null },
-
-        data: Array(42),
-        init: function() {
-            this.setYearMonth({
-                year: 2017,
-                month: 0
-            });
-            this.refreshData();
         },
 
         refreshData: function() {
@@ -261,15 +332,17 @@
         }
     };
 
+    var popup = {
+
+    }
+
     calendarModel.init();
     datepicker.init();
-    var refresh = calendarModel.refreshData();
-    datepicker.refreshDates(refresh);
-    
+    datepicker.refreshDates(calendarModel.refreshData());
     calendarView.init();
+
     pubSub.subscribe("onDateClick", calendarController.onDateClick, calendarController);
     pubSub.subscribe("appendSpinner", calendarView.appendSpinner, calendarView);
-    pubSub.subscribe("getEventsForDate", calendarController.getEventsForDate, calendarController);
     pubSub.subscribe("displayEvents", calendarView.displayEvents, calendarView);
 
 })();
