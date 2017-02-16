@@ -1,9 +1,9 @@
-.date {
+.datepicker__dates__date {
     border: 1px solid #ccc;
     padding: 10px;
 }
 
-.spinner {
+.datepicker__spinner {
     border: 16px solid #f3f3f3;
     /* Light grey */
     border-top: 16px solid #3498db;
@@ -60,7 +60,7 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.event {
+.popup__events__event {
     color: #232323;
     padding: 1em;
     border-bottom: 1px solid #ccc;

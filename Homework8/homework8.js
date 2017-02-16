@@ -10,6 +10,13 @@
                 this.addEvent(event, fn, scope);
         },
 
+        unsubscribe: function(event, fn) {
+          handlers.forEach(function(handler, index) {
+            if(handler.fn === fn)
+              handlers.splice(index, 1);
+          });
+        },
+
         publish: function(event, data) {
             pubSub.handlers.forEach(function(fn) {
                 if (fn.event === event) {
@@ -30,9 +37,8 @@
         },
 
         checkIfElementExists: function(handlers, event) {
-            if (this.isArrayEmpty(handlers)) {
-                return false;
-            } else {
+            if (this.isArrayEmpty(handlers)) return false
+              else {
                 handlers.forEach(function(element, index) {
                     return this.doesEventExist(element, event) ? true : false;
                 }, this);
@@ -157,6 +163,8 @@
     _pubSub.subscribe("addMessage", _model.addMessage, _model);
     _pubSub.subscribe("renderView", _view.render, _view);
     _pubSub.subscribe("setDataMessage", _model.setDataMessage, _model);
+
+    _pubSub.unsubscribe(_model.addMessage);
 
     _view.init();
 

@@ -20,9 +20,9 @@
         },
 
         initEle: function() {
-            this.ele = document.querySelector('.datepicker');
+            this.ele = document.querySelector('.js-datepicker');
             this.wrap = document.createElement('div');
-            this.wrap.className = "dates";
+            this.wrap.className = "datepicker__dates";
             this.ele.appendChild(this.wrap);
         },
 
@@ -31,7 +31,7 @@
             var frag = document.createDocumentFragment();
             for (var i = 0; i < 42; i++) {
                 date = document.createElement('div');
-                date.className = "date";
+                date.className = "datepicker__dates__date";
                 this.dates.push(date);
                 frag.appendChild(date);
             }
@@ -93,7 +93,7 @@
             },
 
             initElements: function() {
-                this.maskEle = document.querySelector(".mask");
+                this.maskEle = document.querySelector(".js-mask");
             },
 
             initListeners: function() {
@@ -133,7 +133,7 @@
 
             createSpinnerElement: function() {
                 var s = document.createElement("div");
-                s.className = "spinner"
+                s.className = "datepicker__spinner"
                 return s;
             },
 
@@ -159,7 +159,7 @@
             },
 
             initElements: function() {
-                this.popupEle = document.querySelector('.popup');
+                this.popupEle = document.querySelector('.js-popup');
             },
 
             show: function() {
@@ -188,7 +188,7 @@
         },
 
         initElements: function() {
-            this.dates = document.querySelector(".dates");
+            this.dates = document.querySelector(".datepicker__dates");
             this.popup.init();
             this.mask.init();
             this.spinner.init();
@@ -215,19 +215,18 @@
 
         initEventDisplay: function() {
             this.eventDisplay = document.createElement("div");
-            this.eventDisplay.className = "events";
+            this.eventDisplay.className = "popup__events";
         },
 
         createEventElement: function(title) {
             var d = document.createElement("div");
-            d.className = "event";
+            d.className = "popup__events__event";
             d.innerText = title;
             return d;
         },
 
         addEventsToPopup: function(events) {
             var self = this;
-
 
             if (events.length === 0) {
                 var d = self.createEventElement("No events for this date");
