@@ -272,6 +272,10 @@
             pubSub.publish("displayEvents", events);
         },
 
+        maskClick: function(e) {
+          pubSub.publish("clearPopup", e);
+        }
+
     };
 
     var calendarModel = {
@@ -386,6 +390,7 @@
     pubSub.subscribe("onDateClick", calendarController.onDateClick, calendarController);
     pubSub.subscribe("appendSpinner", calendarView.appendSpinner, calendarView);
     pubSub.subscribe("displayEvents", calendarView.displayEvents, calendarView);
-    pubSub.subscribe("onMaskClick", calendarView.clearPopup, calendarView);
+    pubSub.subscribe("onMaskClick", calendarController.maskClick, calendarController);
+    pubSub.subscribe("clearPopup", calendarView.clearPopup, calendarView);
 
 })();
