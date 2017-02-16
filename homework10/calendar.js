@@ -79,7 +79,6 @@
             return this.handlers.length === 0;
         }
 
-
     };
 
     var mask = (function() {
@@ -273,14 +272,17 @@
         },
 
         maskClick: function(e) {
-          pubSub.publish("clearPopup", e);
+            pubSub.publish("clearPopup", e);
         }
 
     };
 
     var calendarModel = {
 
-        yearMonth: { year: null, month: null },
+        yearMonth: {
+            year: null,
+            month: null
+        },
         data: Array(42),
         events: [{
             date: "1",
