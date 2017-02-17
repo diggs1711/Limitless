@@ -238,6 +238,7 @@
             }
 
         },
+        
         displayPopup: function() {
             var self = this;
 
@@ -257,11 +258,9 @@
             this.mask.hide();
         }
 
-
     };
 
     var calendarController = {
-
         onDateClick: function(e) {
             var d = e.target;
             var dateClicked = d.innerText;
@@ -274,7 +273,6 @@
         maskClick: function(e) {
             pubSub.publish("clearPopup", e);
         }
-
     };
 
     var calendarModel = {
