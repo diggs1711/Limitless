@@ -4,35 +4,34 @@
     var menuItem = require('./menu.item.js');
 
     var data = [
-      'home', 'contact us', 'about us', 'other'
+        'home', 'contact us', 'about us', 'other'
     ];
 
     var menu = {
-      ele: null,
-      data: null,
-      menuItem: [],
+        ele: null,
+        data: null,
+        menuItem: [],
 
-      init: function(){
-        this.initEle();
-        this.initEvent();
+        init: function() {
+            this.initEle();
+            this.initEvent();
 
-      },
-      initEle: function(){
-        var d;
-        var mi;
-        for(var i=0, ln = this.data.length; i < ln; i++) {
-          d = this.data[i];
-          mi = menuItem({
-            data: d
-          });
+        },
+        initEle: function() {
+            var d;
+            var mi;
+            for (var i = 0, ln = this.data.length; i < ln; i++) {
+                d = this.data[i];
+                mi = menuItem({
+                    data: d
+                });
+                this.menuItem.push(mi);
+            }
+        },
 
-          this.menuItem.push(mi);
+        initEvent: function() {
+
         }
-      },
-
-      initEvent: function() {
-
-      }
     };
 
 
