@@ -15,9 +15,9 @@
     referee.prototype.checkVertical = function(player, cell) {
         var c = player.colour;
 
-        for(i = 0; i < 3; i++) {
+        for(i = 0; i < 5; i++) {
           console.log(this.boardToReferee.valueArray);
-          for(j=0; j<4; j++) {
+          for(j=0; j< 8; j++) {
               if(this.boardToReferee.valueArray[i][j] == c &&
                 this.boardToReferee.valueArray[i + 1][j] == c &&
                 this.boardToReferee.valueArray[i + 2][j] == c &&
