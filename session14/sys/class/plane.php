@@ -14,9 +14,4 @@ class Plane {
     public function fly() {}
 }
 
-$p = new Plane();
-
-echo $p->ele.'<br>';
-echo $p->topSpeed;
-
 ?>

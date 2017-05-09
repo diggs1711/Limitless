@@ -1,0 +1,46 @@
+createTable: function(data) {
+
+            $.each(data, function(d) {
+              var head = d.toString();
+              var td = "";
+
+              $.each(data[d], function(dat) {
+                  td += data[d][dat];
+              });
+
+              console.log(head, td);
+            });
+        },
+
+        createTableMap: function(data) {
+          var t = data["table"];
+          var self = this;
+          var l = {};
+
+            $.each(t, function(d) {
+              var head = Object.keys(t[d]);
+              var th = self.createTableHead(head);
+
+              var values = t[d][head];
+              var col = self.createTableColumn(values);
+
+              l[th] = col;
+            });
+
+            return l;
+        },
+
+        createTableHead: function(colName) {
+            var head = "<th>" + colName + "</th>";
+            return head;
+        },
+
+        createTableColumn: function(values) {
+            var td = "";
+            var r = []
+            var self = this;
+
+            $.each(values, function(value) {
+                td = "<td>" + values[value] + "</td>";
+                r.push(td);
+            });
