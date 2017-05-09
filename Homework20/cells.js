@@ -7,6 +7,7 @@
         this.y = 0;
         this.hasDisc = false;
         this.ele = null;
+        this.colour = "";
     };
 
     cell.prototype.init = function() {

@@ -1,5 +1,7 @@
 (function() {
 
+        var referee =require('./referee.js');
+
         var playerControls = function() {
             this.players = [];
             this.currentPlayer = null;
@@ -15,9 +17,12 @@
 
         playerControls.prototype.playerTurnTaken = function(cell) {
             this.currentPlayer.insertDisc(cell);
-            this.currentPlayer = this.players[1] === this.getCurrentPlayer() ? this.players[0] : this.players[1];
-        }
+            this.currentPlayer = this.switchPlayer();
+        };
 
+        playerControls.prototype.switchPlayer = function() {
+          return this.players[1] === this.getCurrentPlayer() ? this.players[0] : this.players[1];
+        };
 
         module.exports = playerControls;
 })();

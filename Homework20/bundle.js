@@ -73,7 +73,7 @@
 (function() {
 
     var Disc = __webpack_require__(4);
-
+    var pubSub = __webpack_require__(5);
 
     var player = function(name, colour) {
         this.name = name;
@@ -82,9 +82,16 @@
 
     player.prototype.insertDisc = function(cell) {
         var disc = new Disc(this.colour);
-        cell.ele.classList.add(disc.colour);
-        cell.hasDisc = true;
+        this.addDiscToBoard(disc, cell);
+        pubSub.publish("updateBoard", cell);
+        pubSub.publish("checkIfWinner", cell);
     };
+
+    player.prototype.addDiscToBoard = function(d, c) {
+      c.ele.classList.add(d.colour);
+      c.hasDisc = true;
+      c.colour = this.colour;
+    }
 
     module.exports = player;
 })();
@@ -102,22 +109,23 @@
     var pubSub = __webpack_require__(5);
     var scoreboard = __webpack_require__(6);
     var PlayerControls = __webpack_require__(7);
+    var referee = __webpack_require__(8);
 
     var p1 = new Player("p1", "yellow");
     var p2 = new Player("p2", "red");
-    var board = new Board();
+    var board = new Board(8, 8);
     var controls = new PlayerControls();
+    var ref = new referee(board);
 
     controls.players.push(p1);
     controls.players.push(p2);
-
     controls.setCurrentPlayer(p1);
-    
+
     board.init();
-    board.createBoard();
 
     pubSub.subscribe("cellSelected", controls.playerTurnTaken, controls);
-
+    pubSub.subscribe("updateBoard", board.update, board);
+    pubSub.subscribe("checkIfWinner", ref.checkGameStatus, ref);
 })();
 
 
@@ -130,32 +138,43 @@
     var Cell = __webpack_require__(3);
     var scoreboard = __webpack_require__(6)
 
-    var board = function() {
-      this.width = 8;
-      this.height = 8;
+    var board = function(w, h) {
+      this.width = w;
+      this.height = h;
       this.ele = null;
+      this.valueArray = [];
     };
 
     board.prototype.init = function() {
       this.ele = document.querySelector('.board');
+      this.createBoard();
     }
 
     board.prototype.createBoard = function() {
-
-      for(var i = 0; i < this.height; i++) {
+      console.log(this.height-1)
+      for(var i = this.height-1; i >= 0; i--) {
+        console.log(i);
         var row = document.createElement("tr");
+        this.valueArray[i] = [];
+
         for(var j = 0; j < this.width; j++) {
             var cell = new Cell();
             cell.init();
             cell.x = i;
             cell.y = j;
 
+            this.valueArray[i][j] = "Empty";
             row.appendChild(cell.ele);
         }
         this.ele.appendChild(row);
       }
 
     };
+
+    board.prototype.update = function(cell) {
+      console.log(cell.x, cell.y);
+      this.valueArray[cell.x][cell.y] = cell.colour;
+    }
 
     module.exports = board;
 })();
@@ -174,6 +193,7 @@
         this.y = 0;
         this.hasDisc = false;
         this.ele = null;
+        this.colour = "";
     };
 
     cell.prototype.init = function() {
@@ -286,9 +306,11 @@
 
 /***/ }),
 /* 7 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 (function() {
+
+        var referee =__webpack_require__(8);
 
         var playerControls = function() {
             this.players = [];
@@ -305,11 +327,60 @@
 
         playerControls.prototype.playerTurnTaken = function(cell) {
             this.currentPlayer.insertDisc(cell);
-            this.currentPlayer = this.players[1] === this.getCurrentPlayer() ? this.players[0] : this.players[1];
-        }
+            this.currentPlayer = this.switchPlayer();
+        };
 
+        playerControls.prototype.switchPlayer = function() {
+          return this.players[1] === this.getCurrentPlayer() ? this.players[0] : this.players[1];
+        };
 
         module.exports = playerControls;
+})();
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+(function() {
+
+    var referee = function(board) {
+      this.redPlayerScore = 0;
+      this.yellowPlayerScore = 0
+      this.boardToReferee = board;
+      this.gameOver
+    };
+
+    referee.prototype.checkGameStatus = function(player, cell) {
+        var r = this.checkVertical(player, cell);
+        this.checkHorizontal(player, cell);
+    };
+
+    referee.prototype.checkVertical = function(player, cell) {
+        var c = player.colour;
+
+        for(i = 0; i < 3; i++) {
+          console.log(this.boardToReferee.valueArray);
+          for(j=0; j<4; j++) {
+              if(this.boardToReferee.valueArray[i][j] == c &&
+                this.boardToReferee.valueArray[i + 1][j] == c &&
+                this.boardToReferee.valueArray[i + 2][j] == c &&
+              this.boardToReferee.valueArray[i +  3][j] == c) {
+                alert("player " + player.colour + " wins!");
+              }
+          }
+        }
+
+    };
+
+    referee.prototype.checkHorizontal = function(player, cell) {
+
+    };
+
+
+    module.exports = referee;
+
+
 })();
 
 
