@@ -4,7 +4,7 @@
       this.redPlayerScore = 0;
       this.yellowPlayerScore = 0
       this.boardToReferee = board;
-      this.gameOver
+      this.gameOver = false;
     };
 
     referee.prototype.checkGameStatus = function(player, cell) {
@@ -23,6 +23,7 @@
                 this.boardToReferee.valueArray[i + 2][j] == c &&
               this.boardToReferee.valueArray[i +  3][j] == c) {
                 alert("player " + player.colour + " wins!");
+                this.gameOver = true;
               }
           }
         }
