@@ -107,7 +107,6 @@
     var Player = __webpack_require__(0);
     var Board = __webpack_require__(2);
     var pubSub = __webpack_require__(5);
-    var scoreboard = __webpack_require__(6);
     var PlayerControls = __webpack_require__(7);
     var referee = __webpack_require__(8);
 
@@ -153,7 +152,6 @@
     board.prototype.createBoard = function() {
       console.log(this.height-1)
       for(var i = this.height-1; i >= 0; i--) {
-        console.log(i);
         var row = document.createElement("tr");
         this.valueArray[i] = [];
 
@@ -172,7 +170,6 @@
     };
 
     board.prototype.update = function(cell) {
-      console.log(cell.x, cell.y);
       this.valueArray[cell.x][cell.y] = cell.colour;
     }
 
@@ -306,11 +303,9 @@
 
 /***/ }),
 /* 7 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 (function() {
-
-        var referee =__webpack_require__(8);
 
         var playerControls = function() {
             this.players = [];

@@ -1,7 +1,5 @@
 (function() {
 
-        var referee =require('./referee.js');
-
         var playerControls = function() {
             this.players = [];
             this.currentPlayer = null;

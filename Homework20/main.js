@@ -4,7 +4,6 @@
     var Player = require('./player.js');
     var Board = require('./board.js');
     var pubSub = require('./pubSub.js');
-    var scoreboard = require('./scoreboard.js');
     var PlayerControls = require('./playerControls.js');
     var referee = require('./referee.js');
 

@@ -18,7 +18,6 @@
     board.prototype.createBoard = function() {
       console.log(this.height-1)
       for(var i = this.height-1; i >= 0; i--) {
-        console.log(i);
         var row = document.createElement("tr");
         this.valueArray[i] = [];
 
@@ -37,7 +36,6 @@
     };
 
     board.prototype.update = function(cell) {
-      console.log(cell.x, cell.y);
       this.valueArray[cell.x][cell.y] = cell.colour;
     }
 
