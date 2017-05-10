@@ -1,3 +1,4 @@
 # Limitless
-work completed at limitless  
+
+homeworks and mini projects completed using
 Javascript, HTML, CSS
