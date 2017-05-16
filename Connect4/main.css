@@ -17,3 +17,10 @@
 .red {
   background-color: red;
 }
+
+.header {
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+  width: 150px;
+  font-family: 'Lato', sans-serif !important;
+}
