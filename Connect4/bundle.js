@@ -63,37 +63,42 @@
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 (function() {
 
-    var Disc = __webpack_require__(4);
-    var pubSub = __webpack_require__(5);
+        var pubSub = {
+            events: [],
 
-    var player = function(name, colour) {
-        this.name = name;
-        this.colour = colour;
-    };
+            publish: function(event, data) {
+                this.events.map(function(e) {
+                    if (e.name === event) {
+                        e.fn.call(e.scope, data);
+                    }
+                });
+            },
 
-    player.prototype.insertDisc = function(cell) {
-        var disc = new Disc(this.colour);
-        this.addDiscToBoard(disc, cell);
-        pubSub.publish("updateBoard", cell);
-        pubSub.publish("checkIfWinner", cell);
-    };
+            subscribe: function(event, fn, scope) {
 
-    player.prototype.addDiscToBoard = function(d, c) {
-      c.ele.classList.add(d.colour);
-      c.hasDisc = true;
-      c.colour = this.colour;
-    }
+                var e = {
+                    name: event,
+                    fn: fn || null,
+                    scope: scope || this
+                };
 
-    module.exports = player;
+                this.events.push(e);
+
+            }
+
+
+        };
+
+    module.exports = pubSub;
 })();
 
 
@@ -102,40 +107,9 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 (function() {
-'use strict';
 
-    var Player = __webpack_require__(0);
-    var Board = __webpack_require__(2);
-    var pubSub = __webpack_require__(5);
-    var PlayerControls = __webpack_require__(7);
-    var referee = __webpack_require__(8);
-
-    var p1 = new Player("p1", "yellow");
-    var p2 = new Player("p2", "red");
-    var board = new Board(8, 8);
-    var controls = new PlayerControls();
-    var ref = new referee(board);
-
-    controls.players.push(p1);
-    controls.players.push(p2);
-    controls.setCurrentPlayer(p1);
-
-    board.init();
-
-    pubSub.subscribe("cellSelected", controls.playerTurnTaken, controls);
-    pubSub.subscribe("updateBoard", board.update, board);
-    pubSub.subscribe("checkIfWinner", ref.checkGameStatus, ref);
-})();
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-(function() {
-
-    var Cell = __webpack_require__(3);
-    var scoreboard = __webpack_require__(6)
+    var Cell = __webpack_require__(5);
+    var scoreboard = __webpack_require__(7)
 
     var board = function(w, h) {
       this.width = w;
@@ -178,12 +152,134 @@
 
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function() {
 
-    var pubSub = __webpack_require__(5);
+    var Disc = __webpack_require__(6);
+    var pubSub = __webpack_require__(0);
+
+    var player = function(name, colour) {
+        this.name = name;
+        this.colour = colour;
+    };
+
+    player.prototype.insertDisc = function(cell) {
+        var disc = new Disc(this.colour);
+        this.addDiscToBoard(disc, cell);
+        pubSub.publish("updateBoard", cell);
+        pubSub.publish("checkIfWinner", cell);
+    };
+
+    player.prototype.addDiscToBoard = function(d, c) {
+      c.ele.classList.add(d.colour);
+      c.hasDisc = true;
+      c.colour = this.colour;
+    }
+
+    module.exports = player;
+})();
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+(function() {
+
+        var playerControls = function() {
+            this.players = [];
+            this.currentPlayer = null;
+        };
+
+        playerControls.prototype.getCurrentPlayer = function() {
+          return this.currentPlayer;
+        };
+
+        playerControls.prototype.setCurrentPlayer = function(player) {
+          this.currentPlayer = player;
+        };
+
+        playerControls.prototype.playerTurnTaken = function(cell) {
+            this.currentPlayer.insertDisc(cell);
+            this.currentPlayer = this.switchPlayer();
+        };
+
+        playerControls.prototype.switchPlayer = function() {
+          return this.players[1] === this.getCurrentPlayer() ? this.players[0] : this.players[1];
+        };
+
+        module.exports = playerControls;
+})();
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+(function() {
+
+    var referee = function(board) {
+        this.redPlayerScore = 0;
+        this.yellowPlayerScore = 0
+        this.boardToReferee = board;
+        this.gameOver = false;
+    };
+
+    referee.prototype.checkGameStatus = function(player, cell) {
+        var r = this.checkVertical(player, cell);
+        this.checkHorizontal(player, cell);
+    };
+
+    referee.prototype.checkVertical = function(player, cell) {
+        var c = player.colour;
+
+        for (i = 0; i < 5; i++) {
+            for (j = 0; j < 8; j++) {
+                if (this.boardToReferee.valueArray[i][j] == c &&
+                    this.boardToReferee.valueArray[i + 1][j] == c &&
+                    this.boardToReferee.valueArray[i + 2][j] == c &&
+                    this.boardToReferee.valueArray[i + 3][j] == c) {
+                    alert("player " + player.colour + " wins!");
+                    this.gameOver = true;
+                }
+            }
+        }
+
+    };
+
+    referee.prototype.checkHorizontal = function(player, cell) {
+      var c = player.colour;
+      
+      console.log(this.boardToReferee)
+      for (i = 0; i < 5; i++) {
+          for (j = 0; j < 8; j++) {
+              if (this.boardToReferee.valueArray[i][j] == c &&
+                  this.boardToReferee.valueArray[i][j + 1] == c &&
+                  this.boardToReferee.valueArray[i][j + 2] == c &&
+                  this.boardToReferee.valueArray[i][j + 3] == c) {
+                  alert("player " + player.colour + " wins!");
+                  this.gameOver = true;
+              }
+          }
+      }
+    };
+
+
+    module.exports = referee;
+
+
+})();
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function() {
+
+    var pubSub = __webpack_require__(0);
 
     var cell = function() {
         this.x = 0;
@@ -220,7 +316,7 @@
 
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports) {
 
 (function() {
@@ -235,43 +331,7 @@
 
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-(function() {
-
-        var pubSub = {
-            events: [],
-
-            publish: function(event, data) {
-                this.events.map(function(e) {
-                    if (e.name === event) {
-                        e.fn.call(e.scope, data);
-                    }
-                });
-            },
-
-            subscribe: function(event, fn, scope) {
-
-                var e = {
-                    name: event,
-                    fn: fn || null,
-                    scope: scope || this
-                };
-
-                this.events.push(e);
-
-            }
-
-
-        };
-
-    module.exports = pubSub;
-})();
-
-
-/***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 (function() {
@@ -302,81 +362,33 @@
 
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-(function() {
-
-        var playerControls = function() {
-            this.players = [];
-            this.currentPlayer = null;
-        };
-
-        playerControls.prototype.getCurrentPlayer = function() {
-          return this.currentPlayer;
-        };
-
-        playerControls.prototype.setCurrentPlayer = function(player) {
-          this.currentPlayer = player;
-        };
-
-        playerControls.prototype.playerTurnTaken = function(cell) {
-            this.currentPlayer.insertDisc(cell);
-            this.currentPlayer = this.switchPlayer();
-        };
-
-        playerControls.prototype.switchPlayer = function() {
-          return this.players[1] === this.getCurrentPlayer() ? this.players[0] : this.players[1];
-        };
-
-        module.exports = playerControls;
-})();
-
-
-/***/ }),
 /* 8 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 (function() {
+'use strict';
 
-    var referee = function(board) {
-      this.redPlayerScore = 0;
-      this.yellowPlayerScore = 0
-      this.boardToReferee = board;
-      this.gameOver = false;
-    };
+    var Player = __webpack_require__(2);
+    var Board = __webpack_require__(1);
+    var pubSub = __webpack_require__(0);
+    var PlayerControls = __webpack_require__(3);
+    var referee = __webpack_require__(4);
 
-    referee.prototype.checkGameStatus = function(player, cell) {
-        var r = this.checkVertical(player, cell);
-        this.checkHorizontal(player, cell);
-    };
+    var p1 = new Player("p1", "yellow");
+    var p2 = new Player("p2", "red");
+    var board = new Board(8, 8);
+    var controls = new PlayerControls();
+    var ref = new referee(board);
 
-    referee.prototype.checkVertical = function(player, cell) {
-        var c = player.colour;
+    controls.players.push(p1);
+    controls.players.push(p2);
+    controls.setCurrentPlayer(p1);
 
-        for(i = 0; i < 5; i++) {
-          console.log(this.boardToReferee.valueArray);
-          for(j=0; j< 8; j++) {
-              if(this.boardToReferee.valueArray[i][j] == c &&
-                this.boardToReferee.valueArray[i + 1][j] == c &&
-                this.boardToReferee.valueArray[i + 2][j] == c &&
-              this.boardToReferee.valueArray[i +  3][j] == c) {
-                alert("player " + player.colour + " wins!");
-                this.gameOver = true;
-              }
-          }
-        }
+    board.init();
 
-    };
-
-    referee.prototype.checkHorizontal = function(player, cell) {
-
-    };
-
-
-    module.exports = referee;
-
-
+    pubSub.subscribe("cellSelected", controls.playerTurnTaken, controls);
+    pubSub.subscribe("updateBoard", board.update, board);
+    pubSub.subscribe("checkIfWinner", ref.checkGameStatus, ref);
 })();
 
 

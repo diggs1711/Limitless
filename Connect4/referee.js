@@ -32,12 +32,13 @@
     referee.prototype.checkHorizontal = function(player, cell) {
       var c = player.colour;
       
+      console.log(this.boardToReferee)
       for (i = 0; i < 5; i++) {
           for (j = 0; j < 8; j++) {
               if (this.boardToReferee.valueArray[i][j] == c &&
-                  this.boardToReferee.valueArray[i + 1][j] == c &&
-                  this.boardToReferee.valueArray[i + 2][j] == c &&
-                  this.boardToReferee.valueArray[i + 3][j] == c) {
+                  this.boardToReferee.valueArray[i][j + 1] == c &&
+                  this.boardToReferee.valueArray[i][j + 2] == c &&
+                  this.boardToReferee.valueArray[i][j + 3] == c) {
                   alert("player " + player.colour + " wins!");
                   this.gameOver = true;
               }
