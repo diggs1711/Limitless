@@ -1,0 +1,8 @@
+<input ng-model="name"/><button ng-click="onClickAdd()">add</button>
+
+<div ng-repeat="todo in todos track by $index">
+  <div>
+    <a href="#!/red?id={{todo.id}}">{{todo.name}}</a>
+    <button ng-click="onClickDel(todo.id)">del</button>
+  </div>
+</div>
