@@ -6,8 +6,6 @@ app.controller('redController', ['$rootScope', '$scope', 'accountDataModel', '$r
 
     $scope.item = findById(id);
 
-
-
     function findById(id) {
         for (var i = 0; i < all.length; i++) {
 

@@ -1,23 +1,21 @@
 app.controller('inputController', ['$rootScope', '$scope', 'accountDataModel', '$routeParams', 'localStorageService', function(rs, $scope, af, rp, local) {
 
-    $scope.name = af.name;
+    $scope.init = function() {
+        this.id = 0;
+        $scope.name = af.name;
+        $scope.isNameValid = true;
+        rs.todos = [];
+        $scope.initTodoArray();
 
-    $scope.isNameValid = true;
-    rs.todos = [];
+    }
 
-    local.keys().forEach(function(key) {
-        rs.todos.push(local.get(key));
-    });
-
-
-
-    var id = 0;
-
-
+    $scope.initTodoArray = function() {
+      local.keys().forEach(function(key) {
+          rs.todos.push(local.get(key));
+      });
+    }
 
     $scope.onClickDel = function(id) {
-
-        console.log('i want to remove todo item that has id: ' + id);
 
         rs.todos.forEach(function(todo, index) {
             if (todo.id === id) {
@@ -29,80 +27,47 @@ app.controller('inputController', ['$rootScope', '$scope', 'accountDataModel', '
 
     };
 
-
-
     $scope.onClickAdd = function() {
+        var self = this;
 
         var newItem = {
 
-            id: id,
+            id: self.id,
 
             name: $scope.name,
 
             status: 'outstanding',
 
-            age: 10 + id * 23
+            age: 10 + self.id * 23
 
         };
         $scope.todos.push(newItem);
-        local.set(id, newItem);
+        local.set(self.id, newItem);
         $scope.name = '';
-        id++;
+        self.id++;
         rs.todos = $scope.todos;
     };
 
-
-
-    $scope.goToAnotherPage = function() {
-
-        console.log('go....');
-
-    };
-
-
-
     $scope.$watch(toWatchName, afterChangeName);
-
     $scope.$watch(toWatchTodos, afterChangeTodos, true);
-
-
-
-    /**
-
-     *
-     * @param {}
-
-     */
 
     function toWatchName() {
         return $scope.name;
     }
 
     function afterChangeName(newValue, oldValue) {
-
         $scope.isNameValid = af.isNameValid(newValue);
-
-    }
-
-
-
-    /**
-
-     *
-     * @param {}
-
-     */
+    };
 
     function toWatchTodos() {
         return $scope.todos;
-    }
+    };
 
     function afterChangeTodos(newValue, oldValue) {
 
-        console.log('######');
+    };
 
-        console.log(newValue);
 
-    }
+    $scope.init();
 
 }]);
