@@ -7,10 +7,10 @@ var app = null;
 
     app.config(function($routeProvider) {
         $routeProvider.when("/", {
-            templateUrl: "directives/content/main.html",
+            templateUrl: "components/content/main.html",
             controller: 'inputController',
         });
 
     });
-    
+
 })(angular);

@@ -3,7 +3,7 @@
   var main = function() {
 
     return {
-      templateUrl: './directives/content/main.html',
+      templateUrl: './components/content/main.html',
       restrict: 'E'
     };
 

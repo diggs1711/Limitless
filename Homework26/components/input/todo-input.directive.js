@@ -3,8 +3,9 @@
     var input = function() {
 
       return {
-        templateUrl: './directives/input/todo-input.html',
-        restrict: 'E'
+        templateUrl: './components/input/todo-input.html',
+        restrict: 'E',
+        controller: 'inputController'
       };
 
     };

@@ -4,7 +4,7 @@
 
       return {
         restrict: 'E',
-        templateUrl: './directives/header/header.html'
+        templateUrl: './components/header/header.html'
       };
     };
 
