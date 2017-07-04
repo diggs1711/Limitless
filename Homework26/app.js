@@ -3,7 +3,7 @@ var app = null;
 (function(angular) {
     'use strict';
 
-    app = angular.module('limitlessTestApp', ['ngRoute', 'LocalStorageModule']);
+    app = angular.module('todoApp', ['ngRoute', 'LocalStorageModule']);
 
     app.config(function($routeProvider) {
         $routeProvider.when("/", {
