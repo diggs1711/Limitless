@@ -8,5 +8,4 @@ app.factory('accountDataModel', [function() {
     };
 
     return accountDataModel;
-
 }]);
