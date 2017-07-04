@@ -39,7 +39,6 @@ app.controller('inputController', ['$rootScope', '$scope', 'accountDataModel', '
       $scope.updateLocalStorageItems();
       local.set("currentItemId", newId);
       $scope.name = '';
-      rs.todos = $scope.todos;
     };
 
     $scope.updateLocalStorageItems = function() {
@@ -48,13 +47,12 @@ app.controller('inputController', ['$rootScope', '$scope', 'accountDataModel', '
 
     $scope.clear = function() {
 
-      rs.todos.forEach(function(todo, i) {
-        if(todo.complete) {
-          rs.todos.splice(i, 1);
-          $scope.updateLocalStorageItems();
-        };
-      })
-    }
+      rs.todos = rs.todos.filter(function(todo) {
+        return !todo.complete
+      });
+
+      $scope.updateLocalStorageItems();
+    };
 
     $scope.init();
 }]);
