@@ -1,0 +1,35 @@
+.content {
+  text-align: center;
+}
+
+.content--input {
+  padding: 5px;
+}
+
+.content--input--text {
+  width: 60%;
+}
+
+.strike {
+  text-decoration: line-through;
+  color: grey;
+}
+
+.content--list {
+  text-align: left;
+  border-top: 1px solid blue;
+}
+
+.content--list--item {
+  border-bottom: 1px solid blue;
+}
+
+.content--list--item--btn {
+  border-right: 1px solid red;
+  display: inline-block;
+  padding: 6px;
+}
+.content--list--item--name {
+  display: inline-block;
+  padding: 6px;
+}

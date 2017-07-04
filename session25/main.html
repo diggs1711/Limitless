@@ -1,8 +1,23 @@
-<input ng-model="name"/><button ng-click="onClickAdd()">add</button>
+<div>
+    <h1>Todos</h1>
+</div>
 
-<div ng-repeat="todo in todos track by $index">
-  <div>
-    <a href="#!/red?id={{todo.id}}">{{todo.name}}</a>
-    <button ng-click="onClickDel(todo.id)">del</button>
-  </div>
+<div class="content--input">
+    <input class="content--input--text" ng-model="name" placeholder="What needs to be done?" />
+    <button ng-click="onClickAdd()">add</button>
+</div>
+
+<div class="content--list">
+    <div ng-repeat="todo in todos track by $index">
+        <div class="content--list--item">
+            <div class="content--list--item--btn">
+                <button class="" ng-click="onComplete(todo.id)">Complete</button>
+            </div>
+            <div class="content--list--item--name" ng-class="{strike: todo.complete}">
+                <span>
+          {{todo.name}}
+        </span>
+            </div>
+        </div>
+    </div>
 </div>
