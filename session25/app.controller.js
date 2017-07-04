@@ -28,18 +28,33 @@ app.controller('inputController', ['$rootScope', '$scope', 'accountDataModel', '
         var newItem = {
             id: newId,
             name: $scope.name,
-            status: 'outstanding',
-            complete: false,
-            age: 10 + self.id * 23
+            complete: false
         };
 
-        rs.todos.push(newItem);
-        local.set("listItems", rs.todos);
-        local.set("currentItemId", newId);
-        $scope.name = '';
-        rs.todos = $scope.todos;
+        $scope.updateTodos(newId, newItem);
     };
 
-    $scope.init();
+    $scope.updateTodos = function(newId, newItem) {
+      rs.todos.push(newItem);
+      $scope.updateLocalStorageItems();
+      local.set("currentItemId", newId);
+      $scope.name = '';
+      rs.todos = $scope.todos;
+    };
 
+    $scope.updateLocalStorageItems = function() {
+      local.set("listItems", rs.todos);
+    }
+
+    $scope.clear = function() {
+
+      rs.todos.forEach(function(todo, i) {
+        if(todo.complete) {
+          rs.todos.splice(i, 1);
+          $scope.updateLocalStorageItems();
+        };
+      })
+    }
+
+    $scope.init();
 }]);

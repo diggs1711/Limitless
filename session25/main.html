@@ -11,13 +11,17 @@
     <div ng-repeat="todo in todos track by $index">
         <div class="content--list--item">
             <div class="content--list--item--btn">
-                <button class="" ng-click="onComplete(todo.id)">Complete</button>
+                <button ng-click="onComplete(todo.id)">Complete</button>
             </div>
-            <div class="content--list--item--name" ng-class="{strike: todo.complete}">
+            <div class="content--list--item--name" ng-class="{'content--list--item--name__strike' : todo.complete}">
                 <span>
           {{todo.name}}
         </span>
             </div>
         </div>
     </div>
+</div>
+
+<div class="">
+  <button type="button" name="button" ng-click="clear()">Clear completed</button>
 </div>

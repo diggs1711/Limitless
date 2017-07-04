@@ -10,7 +10,7 @@
   width: 60%;
 }
 
-.strike {
+.content--list--item--name__strike {
   text-decoration: line-through;
   color: grey;
 }

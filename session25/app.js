@@ -6,26 +6,10 @@ var app = null;
     app = angular.module('limitlessTestApp', ['ngRoute', 'LocalStorageModule']);
 
     app.config(function($routeProvider) {
-
-        $routeProvider
-
-            .when("/", {
-
+        $routeProvider.when("/", {
             templateUrl: "main.html",
-
             controller: 'inputController',
-
-
-        })
-
-        .when("/red", {
-
-            templateUrl: "red.html",
-
-            controller: 'redController'
-
         });
 
-    })
-
+    });
 })(angular);
