@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="css/app.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>Angular Todo App</title>
@@ -12,13 +12,20 @@
 </head>
 
 <body>
+
+
 	<div ng-app="limitlessTestApp">
-      <div class="content" ng-view></div>
+      <div class="content" ng-view>
+        <main-content></main-content>
+      </div>
 	</div>
 
 	<script src="app.js"></script>
-  <script type="text/javascript" src="account-data-model.js"> </script>
   <script type="text/javascript" src="app.controller.js"></script>
-  <script type="text/javascript" src="app.red.controller.js"></script>
+  <script type="text/javascript" src="account-data.model.js"></script>
+  <script type="text/javascript" src="directives/listview/listview.directive.js"></script>
+  <script type="text/javascript" src="directives/input/todo-input.directive.js"></script>
+  <script type="text/javascript" src="directives/header/header.directive.js"></script>
+  <script type="text/javascript" src="directives/content/content.directive.js"></script>
 </body>
 </html>
